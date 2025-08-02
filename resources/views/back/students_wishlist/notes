@@ -1,0 +1,2 @@
+add colums to tbl_students [academic_year->def_val = 1]
+add attr null default to TheExplain

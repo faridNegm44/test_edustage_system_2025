@@ -1,0 +1,3 @@
+add colums to tbl_parents [ID->auto_increment, TheNotes->def = null]
+Remove colums tbl_parents [pass_hash] => if created before
+Remove colums tbl_parents [TheCode] => if created before

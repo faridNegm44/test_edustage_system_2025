@@ -1,0 +1,8 @@
+
+make new table by name => partners
+
+in table bl_partners_payments => make WalletID take null value
+
+in table bl_partners_payments => add new column name => commission_percentage
+
+in table bl_partners_payments => الاستغناء عن عمود ThePartner

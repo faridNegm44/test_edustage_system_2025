@@ -1,0 +1,4 @@
+add autoincremnt to column ID in table  (tbl_groups)
+add null value to column TheNotes in tbl_groups
+add new column in table => tbl_groups_students => (TeacherTax) decimal(10,2) default 0.00
+add autoincremnt to column ID in table => (tbl_groups_students)

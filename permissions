@@ -1,0 +1,161 @@
+academic_years
+- academic_years_create
+- academic_years_update
+- academic_years_view
+------------------------------------
+rooms
+- rooms_create
+- rooms_update
+- rooms_view
+------------------------------------
+types_of_education
+- types_of_education_create
+- types_of_education_update
+- types_of_education_view
+------------------------------------
+nationalities
+- nationalities_create
+- nationalities_update
+- nationalities_view
+------------------------------------
+places_of_stay
+- places_of_stay_create
+- places_of_stay_update
+- places_of_stay_view
+------------------------------------
+teachers
+- teachers_create
+- teachers_update
+- teachers_view
+- teachers_delete
+------------------------------------
+teacher_subjects
+- teacher_subjects_create
+- teacher_subjects_view
+- teacher_subjects_delete
+------------------------------------
+partners
+- partners_create
+- partners_update
+- partners_view
+- partners_delete
+------------------------------------
+subjects
+- subjects_create
+- subjects_update
+- subjects_view
+------------------------------------
+parents
+- parents_create
+- parents_update
+- parents_view
+- parents_delete
+- parents_crm_info
+- parents_crm_print
+------------------------------------
+students
+- students_create
+- students_update
+- students_view
+- students_delete
+------------------------------------
+students_wishlist
+- students_wishlist_create
+- students_wishlist_view
+- students_wishlist_delete
+------------------------------------
+teacher_accounting_type
+- teacher_accounting_type_create
+- teacher_accounting_type_update
+- teacher_accounting_type_view
+------------------------------------
+groups
+- groups_create
+- groups_update
+- groups_view
+- groups_delete
+- groups_close
+- groups_show_students
+------------------------------------
+groups_sessions
+- groups_sessions_create
+- groups_sessions_update
+- groups_sessions_view
+------------------------------------
+groups_sessions
+- groups_sessions_create
+- groups_sessions_update
+- groups_sessions_view
+- groups_sessions_delete
+- groups_sessions_take_attendance
+------------------------------------
+financial_categories
+- financial_categories_create
+- financial_categories_update
+- financial_categories_view
+------------------------------------
+partners_payments
+- partners_payments_create
+- partners_payments_view
+------------------------------------
+wallets
+- wallets_create
+- wallets_update
+- wallets_view
+------------------------------------
+crm_columns_name
+- crm_columns_name_create
+- crm_columns_name_update
+- crm_columns_name_view
+- crm_columns_name_delete
+------------------------------------
+students_estimates
+- students_estimates_create
+- students_estimates_update
+- students_estimates_view
+- students_estimates_delete
+- students_estimates_student_report
+- students_estimates_groups_report
+- students_estimates_groups_rated_report
+- students_estimates_groups_not_rated_report
+------------------------------------
+times
+- times_create
+- times_update
+- times_view
+- times_delete
+------------------------------------
+time_table
+- time_table_create
+- time_table_update
+- time_table_view
+- time_table_delete
+- time_table_teacher_report
+- time_table_groups_report
+- time_table_history
+------------------------------------
+time_table_ramadan_month
+- time_table_ramadan_month_create
+- time_table_ramadan_month_update
+- time_table_ramadan_month_view
+- time_table_ramadan_month_delete
+- time_table_ramadan_month_teacher_report
+- time_table_ramadan_month_groups_report
+- time_table_ramadan_month_history
+------------------------------------
+users
+- users_create
+- users_update
+- users_view
+- users_delete
+------------------------------------
+roles_permissions
+- roles_permissions_create
+- roles_permissions_update
+- roles_permissions_view
+- roles_permissions_delete
+------------------------------------
+settings
+- settings_update
+- settings_view
+------------------------------------

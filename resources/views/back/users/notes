@@ -1,0 +1,1 @@
+add colums to users table  [selected_academic_year->def_val = null, academic_year->def_val = 1]

@@ -1,0 +1,25 @@
+<mxfile host="65bd71144e">
+    <diagram id="epXycrsvowFzMzMRu4Fe" name="Page-1">
+        <mxGraphModel dx="1214" dy="562" grid="1" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="light-dark(#9A7E7E,#B8B8B8)" math="0" shadow="1">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="&lt;h2&gt;اولا&lt;br&gt;&amp;nbsp;بختار للطالب رغباته&lt;br&gt;مثال ماده العربي والانجليزي والرياضيات&lt;/h2&gt;" style="ellipse;whiteSpace=wrap;html=1;gradientColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="40" width="170" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="&lt;h2&gt;ثانيا&lt;br&gt;&amp;nbsp;بضيف جروب جديد&lt;br&gt;وليكن لماده العربي&lt;br&gt;للصف الثاني الابتدائي&lt;/h2&gt;" style="ellipse;whiteSpace=wrap;html=1;gradientColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="420" y="40" width="170" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="&lt;h4&gt;&lt;/h4&gt;&lt;h2&gt;ثالثا &lt;/h2&gt;&lt;b&gt;ببدا في عرض الطلاب اختار الطلاب المسنده فعليا الي الجروب بمعني اني لو عندي 10 طلاب اختاروا العربي ف الرغبات والفعلي الي اكد ع الاشتراك 4 ف في عرض الطلاب هظهر ليك ال 10 والي تم اختيارهم بالفعل هما ال 4 وهنا اقدر ازورد الطلاب او اقللهم&amp;nbsp;&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;gradientColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="90" y="20" width="240" height="240" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="&lt;h2&gt;رابعا&lt;br&gt;&amp;nbsp;بعد اختيار الطلاب من قائمع عرض الطلاب الي هشتغلهم معاهم لهذا الجروب المسند اليه مادة العربي هبدا اضيف ليهم حصص وفي الحصص برجع فقط الطلبه الي اختارتها من قائمه عرض الطلاب&lt;/h2&gt;" style="ellipse;whiteSpace=wrap;html=1;gradientColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="280" width="230" height="230" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="&lt;h2&gt;خامسا&lt;br&gt;&amp;nbsp;بعد اضافه الحصص هبدا اعمل تفقد لحاله كل طالب تم اسناده لهذه الحصه&lt;/h2&gt;" style="ellipse;whiteSpace=wrap;html=1;gradientColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="330" y="280" width="230" height="230" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
