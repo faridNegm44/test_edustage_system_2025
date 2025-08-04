@@ -223,71 +223,18 @@
 
         
         // start DataTable
-        $(document).ready(function () {
-            $('#example1').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: `{{ url($pageNameEn) }}/datatable`,
-                dataType: 'json',
-                columns: [
-                    {data: 'ID', name: 'ID'},
-                    {data: 'action', name: 'action', orderable: false},
-                    {data: 'GroupName', name: 'GroupName'},
-                    {data: 'OpenDate', name: 'OpenDate'},
-                    {data: 'TheFullNameSubject', name: 'YearID'},
-                    {data: 'ClassType', name: 'ClassType'},
-                    {data: 'TeacherName', name: 'TeacherID'},
-                    {data: 'LangName', name: 'TheLangID'},
-                    {data: 'TheTestType', name: 'TheTestType'},
-                    {data: 'ClassNo1', name: 'ClassNo1'},
-                    {data: 'ClassNo2', name: 'ClassNo2'},
-                    {data: 'ThePrice', name: 'ThePrice'},
-                    {data: 'TheStatus', name: 'TheStatus'},
-                    {data: 'CloseDate', name: 'CloseDate'},
-                    {data: 'TheNotes', name: 'TheNotes'},
-                    {data: 'GroupTeacherPayType', name: 'GroupTeacherPayType'},
-                    {data: 'GroupStaticValue', name: 'GroupStaticValue'},
-                    {data: 'GroupExtraValue', name: 'GroupExtraValue'},
-                    {data: 'GroupMiniStudents', name: 'GroupMiniStudents'},
-                    {data: 'academicYearName', name: 'academicYearName'},
-                ],
-                dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
-                    "<'row'<'col-sm-12'tr>>" +
-                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                buttons: [
-                    { extend: 'excel', text: '📊 Excel', className: 'btn btn-outline-dark', exportOptions: { columns: ':visible'} },
-                    { extend: 'print', text: '🖨️ طباعة', className: 'btn btn-outline-dark', exportOptions: { columns: ':visible'}, customize: function (win) { $(win.document.body).css('direction', 'rtl'); } },
-                    { extend: 'colvis', text: '👁️ إظهار/إخفاء الأعمدة', className: 'btn btn-outline-dark' }
-                ],
-                "bDestroy": true,
-                "order": [[ 0, "desc" ]],
-                //fixedColumns: {
-                //    left: 2
-                //},
-                language: {sUrl: '{{ asset("back/assets/js/ar_dt.json") }}'},
-                lengthMenu: [[50, 100, 200, -1], [50, 100, 200, "الكل"]]
-            });
-        });
+            $(document).ready(function () {
 
-        ///////////////////// start get data to datatable when click btn search
-            $("#search").on('click', function(e){
-                e.preventDefault();
-                const from = $("#from").val();
-                const to = $("#to").val();
-                const academic_year = $("#academic_year").val();
-
-                $("#overlay_page").show();
-                            
-                $('#example1').DataTable({
+                let table = $('#example1').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: {
                         url: `{{ url($pageNameEn) }}/datatable`,
                         type: 'GET',
                         data: function (d) {
-                            d.from = from;
-                            d.to = to;
-                            d.academic_year = academic_year;
+                            d.from = $('#from').val();
+                            d.to = $('#to').val();
+                            d.academic_year = $('#academic_year').val();
                         }
                     },
                     dataType: 'json',
@@ -324,15 +271,20 @@
                     "bDestroy": true,
                     "order": [[ 0, "desc" ]],
                     language: {sUrl: '{{ asset("back/assets/js/ar_dt.json") }}'},
-                    lengthMenu: [[50, 100, 200, -1], [50, 100, 200, "الكل"]],
-                    initComplete: function(settings, json) {
-                        $("#overlay_page").hide();
-                    }
+                    lengthMenu: [[50, 100, 200, -1], [50, 100, 200, "الكل"]]
+                });
+
+                $('#search').on('click', function (e) {
+                    e.preventDefault();
+                    $("#overlay_page").show();
+                    table.ajax.reload();
+                });
+
+                table.on('xhr.dt', function () {
+                    $('#overlay_page').hide();
                 });
             });
-        ///////////////////// end get data to datatable when click btn search
-        
-        // start DataTable
+        // end DataTable
     </script>
 
     {{-- add, edit, delete => script --}}

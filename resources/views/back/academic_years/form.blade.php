@@ -1,5 +1,5 @@
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelleDBy="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle"></h5>
@@ -16,7 +16,7 @@
                 <div class="pd-30 pd-sm-40 bg-gray-100">
                     <div class="row row-xs">
 
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label for="name">اسم السنة</label>
                             <i class="fas fa-star require_input"></i>
                             <div>
@@ -25,7 +25,7 @@
                             <bold class="text-danger" id="errors-name" style="display: none;"></bold>
                         </div>                        
 
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                           <label for="status">الحالة</label>
                           <div>    
                               <select  name="status" class="form-control status" id="status">
@@ -36,7 +36,7 @@
                           <bold class="text-danger" id="errors-status" style="display: none;"></bold>
                       </div>                        
 
-                      <div class="col-md-6">
+                      <div class="col-md-12">
                           <label for="start">تاريخ البداية</label>
                           <i class="fas fa-star require_input"></i>
                           <div>
@@ -45,7 +45,7 @@
                           <bold class="text-danger" id="errors-start" style="display: none;"></bold>
                       </div>                        
 
-                      <div class="col-md-6">
+                      <div class="col-md-12">
                           <label for="end">تاريخ النهاية</label>
                           <i class="fas fa-star require_input"></i>
                           <div>
