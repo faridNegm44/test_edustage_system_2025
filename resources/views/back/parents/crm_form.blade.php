@@ -17,7 +17,7 @@
                   <div id="crmCateg_{{ $crmCategory->id }}">
                       <div class="categName">{{ $crmCategory->name }}</div>
                       
-                      <div class="pd-30 pd-sm-40 bg-gray-100">
+                      <div class="bg-info-transparent" style="padding: 15px 30px !important;">
                         <div class="row row-xs">
                           @foreach ($crmNamesEmpty as $crmName)
                               @if ($crmCategory->id == $crmName->category)                              

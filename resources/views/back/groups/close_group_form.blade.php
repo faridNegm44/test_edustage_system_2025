@@ -14,7 +14,7 @@
                 <input type="hidden" id="res_id" value="" />               
                 <input type="hidden" id="group_name" value="" />               
 
-                <div class="pd-30 pd-sm-40 bg-gray-100">
+                <div class="bg-info-transparent" style="padding: 15px 30px !important;">
                     <div class="row row-xs">  
                       <div class="col-lg-12">
                         <label for="CloseDate">تاريخ الإغلاق</label>

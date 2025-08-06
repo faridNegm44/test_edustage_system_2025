@@ -39,6 +39,11 @@
             cursor: pointer;
         }
 
+        #GroupStaticValueSection, #GroupExtraValueSection, #GroupMiniStudentsSection, #TeacherPercentageValueSection, #TeacherTaxValueSection{
+            display: none;
+        }
+
+
         @media (min-width: 992px) {
             #exampleModalCenter .modal-xl {
                 width: 90%; 
@@ -50,6 +55,29 @@
                 width: 100%;
             }
         }        
+
+
+        /* تثبيت رأس الجدول بدون شريط تمرير */
+        .dataTables_scroll {
+            overflow: visible !important;
+        }
+
+        .dataTables_scrollBody {
+            overflow: visible !important;
+        }
+
+        #example1 {
+            position: relative;
+        }
+
+        #example1 thead th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+
+
     </style>
 @endsection
 
@@ -165,10 +193,14 @@
 
         // when change GroupTeacherPayType قيمة ثابتة او نسبة
         $("#GroupTeacherPayType").on('input', function () {
-            const show = $(this).val() === 'قيمة ثابتة';
-            const display = show ? 'block' : 'none';
-            
-            $("#GroupStaticValueSection, #GroupExtraValueSection, #GroupMiniStudentsSection").css('display', display);
+            if($(this).val() === 'قيمة ثابتة'){                
+                $("#GroupStaticValueSection, #GroupExtraValueSection, #GroupMiniStudentsSection").slideDown();
+                $("#TeacherPercentageValueSection, #TeacherTaxValueSection").slideUp();
+                
+            }else if($(this).val() === 'نسبة'){
+                $("#GroupStaticValueSection, #GroupExtraValueSection, #GroupMiniStudentsSection").slideUp();
+                $("#TeacherPercentageValueSection, #TeacherTaxValueSection").slideDown();
+            }
         });
         // when change GroupTeacherPayType قيمة ثابتة او نسبة
 
@@ -223,67 +255,67 @@
 
         
         // start DataTable
-            $(document).ready(function () {
-
-                let table = $('#example1').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url: `{{ url($pageNameEn) }}/datatable`,
-                        type: 'GET',
-                        data: function (d) {
-                            d.from = $('#from').val();
-                            d.to = $('#to').val();
-                            d.academic_year = $('#academic_year').val();
-                        }
-                    },
-                    dataType: 'json',
-                    columns: [
-                        {data: 'ID', name: 'ID'},
-                        {data: 'action', name: 'action', orderable: false},
-                        {data: 'GroupName', name: 'GroupName'},
-                        {data: 'OpenDate', name: 'OpenDate'},
-                        {data: 'TheFullNameSubject', name: 'YearID'},
-                        {data: 'ClassType', name: 'ClassType'}, // نوع الحصة
-                        {data: 'TeacherName', name: 'TeacherName'}, // المدرس
-                        {data: 'LangName', name: 'TheLangID'}, // نظام التعليم
-                        {data: 'TheTestType', name: 'TheTestType'}, // نوع الإختبارات
-                        {data: 'ClassNo1', name: 'ClassNo1'}, // حصص متوقعه
-                        {data: 'classesCompleted', name: 'classesCompleted'}, // حصص تمت
-                        {data: 'ThePrice', name: 'ThePrice'}, //  السعر
-                        {data: 'TheStatus', name: 'TheStatus'},
-                        {data: 'CloseDate', name: 'CloseDate'},
-                        {data: 'TheNotes', name: 'TheNotes'},
-                        {data: 'GroupTeacherPayType', name: 'GroupTeacherPayType'},
-                        {data: 'GroupStaticValue', name: 'GroupStaticValue'},
-                        {data: 'GroupExtraValue', name: 'GroupExtraValue'},
-                        {data: 'GroupMiniStudents', name: 'GroupMiniStudents'},
-                        {data: 'academicYearName', name: 'academicYearName'},
-                    ],
-                    dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
-                        "<'row'<'col-sm-12'tr>>" +
-                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                    buttons: [
-                        { extend: 'excel', text: '📊 Excel', className: 'btn btn-outline-dark', exportOptions: { columns: ':visible'} },
-                        { extend: 'print', text: '🖨️ طباعة', className: 'btn btn-outline-dark', exportOptions: { columns: ':visible'}, customize: function (win) { $(win.document.body).css('direction', 'rtl'); } },
-                        { extend: 'colvis', text: '👁️ إظهار/إخفاء الأعمدة', className: 'btn btn-outline-dark' }
-                    ],
-                    "bDestroy": true,
-                    "order": [[ 0, "desc" ]],
-                    language: {sUrl: '{{ asset("back/assets/js/ar_dt.json") }}'},
-                    lengthMenu: [[50, 100, 200, -1], [50, 100, 200, "الكل"]]
-                });
-
-                $('#search').on('click', function (e) {
-                    e.preventDefault();
-                    $("#overlay_page").show();
-                    table.ajax.reload();
-                });
-
-                table.on('xhr.dt', function () {
-                    $('#overlay_page').hide();
-                });
+        $(document).ready(function () {
+            let table = $('#example1').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: `{{ url($pageNameEn) }}/datatable`,
+                    type: 'GET',
+                    data: function (d) {
+                        d.from = $('#from').val();
+                        d.to = $('#to').val();
+                        d.academic_year = $('#academic_year').val();
+                    }
+                },
+                dataType: 'json',
+                columns: [
+                    {data: 'ID', name: 'ID'},
+                    {data: 'action', name: 'action', orderable: false},
+                    {data: 'GroupName', name: 'GroupName'},
+                    {data: 'OpenDate', name: 'OpenDate'},
+                    {data: 'TheFullNameSubject', name: 'YearID'},
+                    {data: 'ClassType', name: 'ClassType'},
+                    {data: 'TeacherName', name: 'TeacherName'},
+                    {data: 'LangName', name: 'TheLangID'},
+                    {data: 'TheTestType', name: 'TheTestType'},
+                    {data: 'ClassNo1', name: 'ClassNo1'},
+                    {data: 'classesCompleted', name: 'classesCompleted'},
+                    {data: 'ThePrice', name: 'ThePrice'},
+                    {data: 'TheStatus', name: 'TheStatus'},
+                    {data: 'CloseDate', name: 'CloseDate'},
+                    {data: 'TheNotes', name: 'TheNotes'},
+                    {data: 'GroupTeacherPayType', name: 'GroupTeacherPayType'},
+                    {data: 'GroupStaticValue', name: 'GroupStaticValue'},
+                    {data: 'GroupExtraValue', name: 'GroupExtraValue'},
+                    {data: 'GroupMiniStudents', name: 'GroupMiniStudents'},
+                    {data: 'academicYearName', name: 'academicYearName'},
+                ],
+                dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                buttons: [
+                    { extend: 'excel', text: '📊 Excel', className: 'btn btn-outline-dark', exportOptions: { columns: ':visible'} },
+                    { extend: 'print', text: '🖨️ طباعة', className: 'btn btn-outline-dark', exportOptions: { columns: ':visible'}, customize: function (win) { $(win.document.body).css('direction', 'rtl'); } },
+                    { extend: 'colvis', text: '👁️ إظهار/إخفاء الأعمدة', className: 'btn btn-outline-dark' }
+                ],
+                bDestroy: true,
+                order: [[ 0, "desc" ]],
+                language: {sUrl: '{{ asset("back/assets/js/ar_dt.json") }}'},
+                lengthMenu: [[20, 50, 100, 200, -1], [20, 50, 100, 200, "الكل"]]
             });
+
+            $('#search').on('click', function (e) {
+                e.preventDefault();
+                $("#overlay_page").show();
+                table.ajax.reload();
+            });
+
+            table.on('xhr.dt', function () {
+                $('#overlay_page').hide();
+            });
+        });
+
         // end DataTable
     </script>
 
@@ -358,13 +390,13 @@
 
         <div class="card">
             <div class="card-body">
-                <div class="">
-                    <table class="table table-responsive table-bordered table-striped table-hover text-center text-md-nowrap" id="example1">
+                <div class="table-container" >
+                    <table class="table table-responsive table-bordered table-striped table-hover text-center text-md-nowrap" id="example1" style="max-height: 50vh; overflow: auto;">
                         <thead class="thead-dark">
                             <tr>
                                 <th class="border-bottom-0 nowrap_thead">#</th>
-                                <th class="border-bottom-0 nowrap_thead" style="width: 150px !important;min-width: 150px !important;">التحكم</th>
-                                <th class="border-bottom-0 nowrap_thead" style="width: 100px !important;min-width: 100px !important;">إسم المجموعة</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 170px !important;min-width: 170px !important;">التحكم</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 120px !important;min-width: 120px !important;">إسم المجموعة</th>
                                 <th class="border-bottom-0 nowrap_thead">تاريخ الإضافة</th>
                                 <th class="border-bottom-0 nowrap_thead" style="width: 150px !important;min-width: 150px !important;">الصف والمادة</th>
                                 <th class="border-bottom-0 nowrap_thead" style="width: 90px !important;min-width: 90px !important;">نوع الحصة</th>
@@ -383,11 +415,11 @@
                                 <th class="border-bottom-0 nowrap_thead">قيمة الإكسترا</th>
                                 <th class="border-bottom-0 nowrap_thead">السنة</th>
                             </tr>
-                        </thead>                                
+                        </thead>                      
                     </table>
                 </div>
             </div>
-        </div>
+        </div>        
     </div>
 @endsection
 

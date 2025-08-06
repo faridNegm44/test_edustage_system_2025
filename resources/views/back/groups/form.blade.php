@@ -13,11 +13,11 @@
                 @csrf
                 <input type="hidden" id="res_id" value="" />               
 
-                <div class="pd-30 pd-sm-40 bg-gray-100">
+                <div class="bg-info-transparent" style="padding: 15px 30px !important;">
                     <div class="row row-xs">  
                       
                       {{-- start right --}}
-                        <div class="col-lg-7">
+                        <div class="col-lg-7" style="padding: 0 15px !important;">
                           
                           <div class="row">
                             <div class="col-lg-6">
@@ -138,7 +138,7 @@
 
 
                       {{-- start left --}}
-                        <div class="col-lg-5">                        
+                        <div class="col-lg-5" style="padding: 0 15px !important;">                        
                           <div class="row">
                             <div class="col-md-6">
                               <label for="ClassNo1">عدد حصص متوقع</label>
@@ -164,7 +164,7 @@
                           <br>
                           <small class="alert alert-danger">من فضلك اختر طريقه حساب مناسبة اما قيمه ثابتة او نسبة</small>
                           <div class="row" style="border: 1px solid red;border-radius: 5px;margin: 0;padding: 10px 0;">
-                            <div class="col-md-6">
+                            <div class="col-12">
                               <label for="GroupTeacherPayType">النظام</label>
                               
                               <div>
@@ -176,33 +176,54 @@
                               </div>
                               <bold class="text-danger" id="errors-GroupTeacherPayType" style="display: none;"></bold>
                             </div>
-                            
-                            <div class="col-md-6" id="GroupStaticValueSection">
-                              <label for="GroupStaticValue">القيمة الثابتة</label>
-                              
-                              <div>
-                                <input type="number" id="GroupStaticValue" name="GroupStaticValue" class="dataInput form-control" placeholder="القيمة الثابتة" value="0">
+
+                            {{-- بدايه حقول القيمه الثابتة للمدرس --}}
+                              <div class="col-md-6" id="GroupStaticValueSection">
+                                <label for="GroupStaticValue">القيمة الثابتة</label>                
+                                <div>
+                                  <input type="number" id="GroupStaticValue" name="GroupStaticValue" class="dataInput form-control" placeholder="القيمة الثابتة" value="0">
+                                </div>
+                                <bold class="text-danger" id="errors-GroupStaticValue" style="display: none;"></bold>
                               </div>
-                              <bold class="text-danger" id="errors-GroupStaticValue" style="display: none;"></bold>
-                            </div>
+                              
+
+                              <div class="col-md-6" id="GroupExtraValueSection">
+                                <label for="GroupExtraValue">قيمة الإضافي</label>                              
+                                <div>
+                                  <input type="number" id="GroupExtraValue" name="GroupExtraValue" class="dataInput form-control" placeholder="قيمة الإضافي" value="0">
+                                </div>
+                                <bold class="text-danger" id="errors-GroupExtraValue" style="display: none;"></bold>
+                              </div>
+
+                              <div class="col-md-6" id="GroupMiniStudentsSection">
+                                <label for="GroupMiniStudents">الحد الأدني للقيمة الثابتة</label>                            
+                                <div>
+                                  <input type="number" id="GroupMiniStudents" name="GroupMiniStudents" class="dataInput form-control" placeholder="الحد الأدني للقيمة الثابتة">
+                                </div>
+                                <bold class="text-danger" id="errors-GroupMiniStudents" style="display: none;"></bold>
+                              </div>
+                            {{-- نهاية حقول القيمه الثابتة للمدرس --}}
                             
 
-                            <div class="col-md-6" id="GroupExtraValueSection">
-                              <label for="GroupExtraValue">قيمة الإضافي</label>
-                              
-                              <div>
-                                <input type="number" id="GroupExtraValue" name="GroupExtraValue" class="dataInput form-control" placeholder="قيمة الإضافي" value="0">
-                              </div>
-                              <bold class="text-danger" id="errors-GroupExtraValue" style="display: none;"></bold>
-                            </div>
 
-                            <div class="col-md-6" id="GroupMiniStudentsSection">
-                              <label for="GroupMiniStudents">الحد الأدني للقيمة الثابتة</label>                            
-                              <div>
-                                <input type="number" id="GroupMiniStudents" name="GroupMiniStudents" class="dataInput form-control" placeholder="الحد الأدني للقيمة الثابتة">
+                            {{-- بدايه حقول النسبه للمدرس --}}
+                              <div class="col-md-6" id="TeacherPercentageValueSection">
+                                <label for="TeacherPercentageValue">نسبة المدرس %</label>                
+                                <div>
+                                  <input type="number" id="TeacherPercentageValue" name="TeacherPercentageValue" class="dataInput form-control" placeholder="نسبة المدرس %" value="0">
+                                </div>
+                                <bold class="text-danger" id="errors-TeacherPercentageValue" style="display: none;"></bold>
                               </div>
-                              <bold class="text-danger" id="errors-GroupMiniStudents" style="display: none;"></bold>
-                            </div>
+                              
+                              <div class="col-md-6" id="TeacherTaxValueSection">
+                                <label for="TeacherTaxValue">ضريبة المدرس %</label>                
+                                <div>
+                                  <input type="number" id="TeacherTaxValue" name="TeacherTaxValue" class="dataInput form-control" placeholder="ضريبة المدرس %" value="0">
+                                </div>
+                                <bold class="text-danger" id="errors-TeacherTaxValue" style="display: none;"></bold>
+                              </div>
+                              
+                            {{-- نهاية حقول النسبه للمدرس --}}
                           </div>
 
                         </div>

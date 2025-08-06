@@ -13,7 +13,7 @@
                 @csrf
                 <input type="hidden" id="row_id" value="" />               
 
-                <div class="pd-30 pd-sm-40 bg-gray-100">
+                <div class="bg-info-transparent" style="padding: 15px 30px !important;">
                     <div class="row row-xs">
                         <div class="col-md-3">
                             <label for="client_supplier_type">نوع العميل</label>
