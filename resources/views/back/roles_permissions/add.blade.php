@@ -35,7 +35,7 @@
         }
 
         tbody tr td {
-            padding: 0px !important;
+            padding: 2px 10px 0px !important;
         }
     </style>
 @endsection
@@ -43,6 +43,10 @@
 @section('footer')
     <script>
         $(document).ready(function () {
+            // close sidebar when page reload
+            $("body").addClass('sidenav-toggled');
+
+
             $('#selectAll').click(function(event) {
                 if(this.checked) {
                     $('input[type="checkbox"]').each(function() {
@@ -125,7 +129,7 @@
                                 @foreach ($models as $model)
                                     <tr style="" id="{{ $model }}">
                                         <td class="text-center">{{ $count++ }}</td>
-                                        <td class="text-nowrap fw-semibold">@lang('app.'.$model)</td>
+                                        <td class="" style="font-size: 12px;font-weight: bold;">@lang('app.'.$model)</td>
                                         <td>
                                             <div class="d-flex">
                                                 @if($model != 'settings')

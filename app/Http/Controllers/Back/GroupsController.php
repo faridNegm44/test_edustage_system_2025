@@ -217,13 +217,18 @@ class GroupsController extends Controller
                     ->leftJoin('tbl_teachers', 'tbl_teachers.ID', 'tbl_groups.TeacherID')
                     ->leftJoin('tbl_langs', 'tbl_langs.LangID', 'tbl_groups.TheLangID')
                     ->leftJoin('academic_years', 'academic_years.id', 'tbl_groups.academic_year')
+                    ->leftJoin('tbl_groups_classes', 'tbl_groups_classes.GroupID', 'tbl_groups.ID')
                     ->select(
                         'tbl_groups.*',
-                        'tbl_years_mat.ID as idSubject', 'tbl_years_mat.TheFullName as TheFullNameSubject',
+                        'tbl_years_mat.ID as idSubject', 
+                        'tbl_years_mat.TheFullName as TheFullNameSubject',
                         'tbl_teachers.TheName as TeacherName',
                         'tbl_langs.LangName',
-                        'academic_years.name as academicYearName'
-                    );
+                        'tbl_groups_classes.ClassNumber',
+                        'academic_years.name as academicYearName',
+                    )
+                    ->groupBy('tbl_groups_classes.GroupID');
+
 
         if ($from && $to) {
             $query->whereBetween('tbl_groups.OpenDate', [$from, $to]);
@@ -255,6 +260,16 @@ class GroupsController extends Controller
                             '.Str::limit($res->TheNotes, 20).'
                         </span>';
             })      
+            ->addColumn('ClassNo1', function($res){
+                return '<span class="badge badge-danger" style="font-size: 100% !important;">
+                            '.$res->ClassNo1.'
+                        </span>';
+            })      
+            ->addColumn('classesCompleted', function($res){
+                return '<span class="badge badge-primary" style="font-size: 100% !important;">
+                            6
+                        </span>';
+            })      
             ->addColumn('action', function($res){
                 return '
                     '.( $res->TheStatus != 'مغلقة' ? '
@@ -262,6 +277,12 @@ class GroupsController extends Controller
                                 <i class="fas fa-lock"></i>
                             </button>
                         ' : '').'
+
+                    '.( $res->ClassNumber == 0 ? '
+                        <button type="button" class="btn btn-sm btn-warning change_teacher" data-effect="effect-scale" data-toggle="modal" href="#modalStudents" data-placement="top" data-toggle="tooltip" title="تغيير المدرس" years_mat_id="'.$res->idSubject.'" group_id="'.$res->ID.'">
+                            <i class="fas fa-user-edit"></i>
+                        </button>
+                    ' : '').'
 
                     <button type="button" class="btn btn-sm btn-danger delete" data-placement="top" data-toggle="tooltip" title="حذف المجموعة" res_id="'.$res->ID.'" group_name="'.$res->GroupName.'">
                         <i class="fa fa-trash-alt"></i>
@@ -274,7 +295,7 @@ class GroupsController extends Controller
                     <button type="button" class="btn btn-sm btn-success show_students" data-effect="effect-scale" data-toggle="modal" href="#modalStudents" data-placement="top" data-toggle="tooltip" title="عرض الطلاب" years_mat_id="'.$res->idSubject.'" group_id="'.$res->ID.'">
                         <i class="fas fa-users"></i>
                     </button>
-
+                    
                     <a href="'.url('groups-sessions').'/'.$res->ID.'" target="_blank" class="btn btn-sm btn-purple" data-effect="effect-scale" data-placement="top" data-toggle="tooltip" title="الحصص" res_id="'.$res->ID.'">
                         <i class="fas fa-chalkboard-teacher"></i>
                     </a>
@@ -285,7 +306,7 @@ class GroupsController extends Controller
                 //</button>
                 
             })
-            ->rawColumns(['GroupName', 'TheNotes', 'action'])
+            ->rawColumns(['GroupName', 'TheNotes', 'ClassNo1', 'classesCompleted', 'action'])
             ->toJson();
     }
     // end datatable group

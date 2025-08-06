@@ -31,7 +31,7 @@ if (!function_exists('GetAcademicYaer')) {
     if (!function_exists('authUserInfo')) {
         function authUserInfo(){
             return User::where('users.id', auth()->user()->id)
-                        ->leftJoin('roles_permissions', 'roles_permissions.id', '=', 'users.role')
+                        ->leftJoin('roles_permissions', 'roles_permissions.id', '=', 'users.user_status')
                         ->select(
                             'users.*',
                             'roles_permissions.role_name'
@@ -94,7 +94,6 @@ if (!function_exists('display_number')) {
 //    }
 //}
 // end show الارقام العشريه
-
 
 
 // start function role_permissions

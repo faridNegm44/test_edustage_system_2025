@@ -1,5 +1,5 @@
 <div class="main-footer ht-40">
     <div class="container-fluid pd-t-0-f ht-100p">
-        <span>Copyright © {{ date('Y') }} <a href="">DEV: Farid Negm - 010 12 77 57 04</a> All rights reserved.</span>
+        <span>© {{ date('Y') }} جميع الحقوق محفوظة. تم التطوير بواسطة <a href=""> فريد نجم - 01012775704</a></span>
     </div>
 </div>

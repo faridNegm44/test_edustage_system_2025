@@ -5,7 +5,56 @@
 @endsection
 
 @section('header')
-	
+	<style>
+		#first_section .card-body{
+			padding: 11px !important;
+			height: 70px !important;
+		}
+		#second_section .card-body{
+			padding: 5px !important;
+		}
+		td, th{
+			font-size: 10px;
+			text-align: center;
+			padding: 2px !important;
+		}
+		.ajs-success, .ajs-error{
+			min-width: 450px !important;
+		}
+		.dashboard-card {
+			transition: all 0.3s ease-in-out;
+			cursor: pointer;
+			border: 2px solid transparent;
+		}
+
+		.dashboard-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+			border-color: #0d6efd; /* تغيير لون الإطار عند الهوفر */
+		}
+
+		.dashboard-card:hover i {
+			transform: scale(1.2) translateY(-3px);
+		}
+		#first_section .card:hover, #second_section .card:hover {
+			transform: scale(1.1) translateY(-6px);
+			box-shadow: 10px 8px 16px rgba(0, 0, 0, 0.15);
+			transition: transform 0.5s ease;
+		}
+		.dashboard-card i {
+			transition: transform 0.3s ease;
+		}
+
+		.dashboard-card:hover span {
+			font-weight: bold;
+			letter-spacing: 0.5px;
+		}
+
+		.breadcrumb-header {
+			margin-top: 2px !important;
+			margin-bottom: 2px !important;
+		}
+	</style>
 @endsection
 
 @section('footer')
@@ -15,6 +64,24 @@
 				alertify.set('notifier','position', 'top-center');
 				alertify.set('notifier','delay', 4);
 				alertify.success("مرحبا ( {{ auth()->user()->name }} )");
+			});
+		</script>
+	@endif
+
+	@if (session()->has('notAuth'))
+		<script>
+			$(document).ready(function () {
+				alertify.dialog('alert')
+						.set({transition:'slide',message: `
+							<div style="text-align: center;">
+								<p style="color: #e67e22; font-size: 18px; margin-bottom: 10px;">
+									صلاحية غير متوفرة 🔐⚠️
+								</p>
+								<p>{{ session()->get('notAuth') }}</p>
+							</div>
+						`, 'basic': true})
+						.show();  
+
 			});
 		</script>
 	@endif
@@ -35,65 +102,340 @@
 
 <div class="container-fluid">
 	<!-- breadcrumb -->
-	<div class="breadcrumb-header justify-content-between">
-		<div class="left-content" style="padding-top: 15px;">
-			<div>
-				<h2	class="main-content-title tx-20 mg-b-1 mg-b-lg-1">
-					مرحبا ( {{ auth()->user()->name }} )
-				
-					<span class="badge badge-danger"> الوظيفة: 
-						@if (auth()->user()->user_status == 1)
-							سوبر أدمن
-						@elseif(auth()->user()->user_status == 2)
-							موظف
-						@elseif(auth()->user()->user_status == 3)
-							ولي أمر
-						@elseif(auth()->user()->user_status == 4)
-							مدرس
-						@elseif(auth()->user()->user_status == 5)
-							طالب
-						@endif
-					</span>
-				</h2>
-			</div>
+	<div class="breadcrumb-header d-flex justify-content-between align-items-center flex-wrap" >
 
-			@if (auth()->user()->user_status != 3)
-	
-				@if ($selected_academic_years->selected_academic_year === null)
-					<!-- لا شيء -->
-				@elseif($selected_academic_years->selected_academic_year === 0)
-					<span style="margin: 0 20px;color: red;display: inline;font-weight: bold;">عرض السنه الأكاديمية: <span>الكل</span></span>
-				@else
+		{{-- رسالة الترحيب والمسمى الوظيفي --}}
+		<div class="left-content" >
+			<div class="d-flex align-items-center flex-wrap">
+				{{-- اسم المستخدم والحالة --}}
+				<h5 class="main-content-title tx-15 mb-1 me-3">
+					مرحباً - {{ auth()->user()->name }} 
+					<span class="bg bg-primary-transparent ms-2">
+						- 
+						@switch(auth()->user()->user_status)
+							@case(1) سوبر أدمن @break
+							@case(2) موظف @break
+							@case(3) ولي أمر @break
+							@case(4) مدرس @break
+							@case(5) طالب @break
+						@endswitch
+						
+					</span>
+				</h5>
+
+				@if (auth()->user()->user_status != 3 && $selected_academic_years->selected_academic_year !== null)
 					@php
-						$academicYear = \DB::table('academic_years')->where('id', $selected_academic_years->selected_academic_year)->first();
+						$yearId = $selected_academic_years->selected_academic_year;
+						$yearName = $yearId === 0 ? 'الكل' : optional(\DB::table('academic_years')->find($yearId))->name;
 					@endphp
-					<span style="margin: 0 20px;color: red;display: inline;font-weight: bold;">عرض السنه الأكاديمية: <span>{{ $academicYear->name }}</span></span>
+					<div class="ms-auto mt-2 mt-lg-0">
+						<span class="fw-bold text-danger">
+							🎓  السنة الأكاديمية المختارة: <span class="text-primary">{{ $yearName }}</span>
+						</span>
+					</div>
 				@endif
-				
-			@endif
+			</div>
 		</div>
 
-		{{-- start سنوات الاكاديمية --}}
+
+		{{-- قائمة اختيار السنة الأكاديمية --}}
 		<div class="main-dashboard-header-right">
-			<div>
-				<label class="tx-13">سنوات الاكاديمية</label>
-				<select class="form-control" name="getDataByAcademicYear" id="getDataByAcademicYear">
+			<div class="d-flex align-items-center">
+				<label class="tx-13 me-2 mb-0" style="margin-left: 10px;">سنوات الأكاديمية</label>
+				<select class="form-control" name="getDataByAcademicYear" id="getDataByAcademicYear" style="width: 150px;">
 					<option disabled selected>اختر سنة</option>
-					<option value='0'>الكل</option>
+					<option value="0">الكل</option>
 					@if (auth()->user()->user_status != 3)
 						@foreach ($academic_years as $academic_year)
-							{{-- {{ $academic_year->status == 1 ? 'selected' : '' }} --}}
-							<option value="{{ $academic_year->id }}">{{ $academic_year->name }}</option>							
+							<option value="{{ $academic_year->id }}">{{ $academic_year->name }}</option>
 						@endforeach
 					@endif
 				</select>
 			</div>
 		</div>
-		
-		{{-- end سنوات الاكاديمية --}}
 	</div>
+	<hr style="border: 1px solid #cfdbe9 !important;margin-bottom: 20px !important;margin-top: 5px !important;">
 
-	<hr />
+
+	{{---------------------------- start first section ------------------------------}}
+	<div class="row g-3 justify-content-center" id="first_section">
+
+		<div class="col-md-2 col-12" data-placement="bottom" data-toggle="tooltip" title="المجموعات التعليمية">
+			<div class="card text-center dashboard-card border">
+			<div class="card-body">
+				<a href="{{ url('groups') }}" target="_blank" class="text-decoration-none">
+				<i class="fas fa-layer-group fa-2x mb-1 d-block"></i>
+				<span class="fw-bold tx-10">المجموعات التعليمية</span>
+				</a>
+			</div>
+			</div>
+		</div>
+
+		<div class="col-md-2 col-12" data-placement="bottom" data-toggle="tooltip" title="المدرسون">
+			<div class="card text-center dashboard-card border">
+			<div class="card-body">
+				<a href="{{ url('teachers') }}" target="_blank" class="text-decoration-none">
+				<i class="fas fa-chalkboard-teacher fa-2x mb-1 d-block"></i>
+				<span class="fw-bold tx-10">المدرسون</span>
+				</a>
+			</div>
+			</div>
+		</div>
+
+		<div class="col-md-2 col-12" data-placement="bottom" data-toggle="tooltip" title="أولياء الأمور">
+			<div class="card text-center dashboard-card border">
+			<div class="card-body">
+				<a href="{{ url('guardians') }}" target="_blank" class="text-decoration-none">
+				<i class="fas fa-user-shield fa-2x mb-1 d-block"></i>
+				<span class="fw-bold tx-10">أولياء الأمور</span>
+				</a>
+			</div>
+			</div>
+		</div>
+
+		<div class="col-md-2 col-12" data-placement="bottom" data-toggle="tooltip" title="الطلاب">
+			<div class="card text-center dashboard-card border">
+			<div class="card-body">
+				<a href="{{ url('students') }}" target="_blank" class="text-decoration-none">
+				<i class="fas fa-user-graduate fa-2x mb-1 d-block"></i>
+				<span class="fw-bold tx-10">الطلاب</span>
+				</a>
+			</div>
+			</div>
+		</div>
+
+		<div class="col-md-2 col-12" data-placement="bottom" data-toggle="tooltip" title="جدول الحصص">
+			<div class="card text-center dashboard-card border">
+			<div class="card-body">
+				<a href="{{ url('schedules') }}" target="_blank" class="text-decoration-none">
+				<i class="fas fa-calendar-alt fa-2x mb-1 d-block"></i>
+				<span class="fw-bold tx-10">جدول الحصص</span>
+				</a>
+			</div>
+			</div>
+		</div>
+
+		<div class="col-md-2 col-12" data-placement="bottom" data-toggle="tooltip" title="متحصلات من أولياء الأمور">
+			<div class="card text-center dashboard-card border">
+			<div class="card-body">
+				<a href="{{ url('guardians/receipts') }}" target="_blank" class="text-decoration-none">
+				<i class="fas fa-hand-holding-usd fa-2x mb-1 d-block"></i>
+				<span class="fw-bold tx-10">متحصلات أولياء الأمور</span>
+				</a>
+			</div>
+			</div>
+		</div>
+
+		</div>
+
+	<hr style="border: 1px solid #cfdbe9 !important;margin-bottom: 20px !important;margin-top: 5px !important;">
+	{{------------------------------ end first section ------------------------------}}
+	
+	
+
+
+
+
+
+
+
+	{{-- ----------------------------start second section ------------------------------}}
+	<div class="row row-sm" id="second_section">
+
+		<div class="col-lg-3 col-md-3 col-6">
+			<a href="#" class="text-white">
+				<div class="card bg-info-gradient text-white">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-2 text-center" style="padding: 0px 15px;">
+								<i class="fas fa-user-shield tx-30 mt-2"></i>
+							</div>
+							<div class="col-9 text-center">
+								<span style="font-size: 11px;font-weight: bold;">كشف حساب ولي أمر</span>
+								<h4 class="mb-0">100</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-lg-3 col-md-3 col-6">
+			<a href="#" class="text-white">
+				<div class="card bg text-white" style="background-image: linear-gradient(to right, #cc6600c2 0, #86c722b5 100%) !important;">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-2 text-center" style="padding: 0px 15px;">
+								<i class="fas fa-money-check-alt tx-30 mt-2"></i>
+							</div>
+							<div class="col-9 text-center">
+								<span style="font-size: 11px;font-weight: bold;">كشف مدفوعات ولي أمر</span>
+								<h4 class="mb-0">900</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-lg-3 col-md-3 col-6">
+			<a href="#" class="text-white">
+				<div class="card bg-success-gradient text-white">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-2 text-center" style="padding: 0px 15px;">
+								<i class="fas fa-users tx-30 mt-2"></i>
+							</div>
+							<div class="col-9 text-center">
+								<span style="font-size: 11px;font-weight: bold;">كشف حسابات المدرسين العام</span>
+								<h4 class="mb-0">200</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-lg-3 col-md-3 col-6">
+			<a href="#" class="text-white">
+				<div class="card bg-primary-gradient text-white">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-2 text-center" style="padding: 0px 15px;">
+								<i class="fas fa-percentage tx-30 mt-2"></i>
+							</div>
+							<div class="col-9 text-center">
+								<span style="font-size: 11px;font-weight: bold;">كشف مدرس تفصيلي - نسبة</span>
+								<h4 class="mb-0">300</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-lg-3 col-md-3 col-6">
+			<a href="#" class="text-white">
+				<div class="card bg-warning-gradient text-white">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-2 text-center" style="padding: 0px 15px;">
+								<i class="fas fa-dollar-sign tx-30 mt-2"></i>
+							</div>
+							<div class="col-9 text-center">
+								<span style="font-size: 11px;font-weight: bold;">كشف مدرس تفصيلي - قيمة ثابتة</span>
+								<h4 class="mb-0">400</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-lg-3 col-md-3 col-6">
+			<a href="#" class="text-white">
+				<div class="card bg-secondary-gradient text-white">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-2 text-center" style="padding: 0px 15px;">
+								<i class="fas fa-chalkboard-teacher tx-30 mt-2"></i>
+							</div>
+							<div class="col-9 text-center">
+								<span style="font-size: 11px;font-weight: bold;">تقرير حصص المدرس</span>
+								<h4 class="mb-0">700</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-lg-3 col-md-3 col-6">
+			<a href="#" class="text-white">
+				<div class="card bg-purple-gradient text-white">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-2 text-center" style="padding: 0px 15px;">
+								<i class="fas fa-clipboard-list tx-30 mt-2"></i>
+							</div>
+							<div class="col-9 text-center">
+								<span style="font-size: 11px;font-weight: bold;">الكشف المالي العام</span>
+								<h4 class="mb-0">500</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-lg-3 col-md-3 col-6">
+			<a href="#" class="text-white">
+				<div class="card bg-danger-gradient text-white">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-2 text-center" style="padding: 0px 15px;">
+								<i class="fas fa-exchange-alt tx-30 mt-2"></i>
+							</div>
+							<div class="col-9 text-center">
+								<span style="font-size: 11px;font-weight: bold;">الحركة المالية</span>
+								<h4 class="mb-0">600</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-lg-3 col-md-3 col-6">
+			<a href="#" class="text-white">
+				<div class="card bg text-white" style="background-image: linear-gradient(to right, #242d42 0, #515f7f 100%) !important;">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-2 text-center" style="padding: 0px 15px;">
+								<i class="fas fa-object-group tx-30 mt-2"></i>
+							</div>
+							<div class="col-9 text-center">
+								<span style="font-size: 11px;font-weight: bold;">تقرير حصص لجروب</span>
+								<h4 class="mb-0">800</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-lg-3 col-md-3 col-6">
+			<a href="#" class="text-white">
+				<div class="card bg text-white" style="background-image: linear-gradient(to left, #a674b1, #b69df5) !important;">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-2 text-center" style="padding: 0px 15px;">
+								<i class="fas fa-book-open tx-30 mt-2"></i>
+							</div>
+							<div class="col-9 text-center">
+								<span style="font-size: 11px;font-weight: bold;">كشف حصص الطلاب</span>
+								<h4 class="mb-0">1000</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+
+	</div>
+	<hr style="border: 1px solid #cfdbe9 !important;margin-bottom: 20px !important;margin-top: 5px !important;">
+	{{-- ----------------------------end second section ------------------------------}}
+		
+
+
+
+
+
+
+
+
+
+
 
 	<!-- /breadcrumb -->
 

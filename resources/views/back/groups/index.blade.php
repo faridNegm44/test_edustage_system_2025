@@ -244,13 +244,13 @@
                         {data: 'GroupName', name: 'GroupName'},
                         {data: 'OpenDate', name: 'OpenDate'},
                         {data: 'TheFullNameSubject', name: 'YearID'},
-                        {data: 'ClassType', name: 'ClassType'},
-                        {data: 'TeacherName', name: 'TeacherID'},
-                        {data: 'LangName', name: 'TheLangID'},
-                        {data: 'TheTestType', name: 'TheTestType'},
-                        {data: 'ClassNo1', name: 'ClassNo1'},
-                        {data: 'ClassNo2', name: 'ClassNo2'},
-                        {data: 'ThePrice', name: 'ThePrice'},
+                        {data: 'ClassType', name: 'ClassType'}, // نوع الحصة
+                        {data: 'TeacherName', name: 'TeacherName'}, // المدرس
+                        {data: 'LangName', name: 'TheLangID'}, // نظام التعليم
+                        {data: 'TheTestType', name: 'TheTestType'}, // نوع الإختبارات
+                        {data: 'ClassNo1', name: 'ClassNo1'}, // حصص متوقعه
+                        {data: 'classesCompleted', name: 'classesCompleted'}, // حصص تمت
+                        {data: 'ThePrice', name: 'ThePrice'}, //  السعر
                         {data: 'TheStatus', name: 'TheStatus'},
                         {data: 'CloseDate', name: 'CloseDate'},
                         {data: 'TheNotes', name: 'TheNotes'},

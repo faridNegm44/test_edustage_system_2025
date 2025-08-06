@@ -317,6 +317,21 @@
             }
         }
 
+        @media (min-width: 768px) {
+            .sidenav-toggled .app-sidebar__user {
+                /* padding: 12px 0 12px 0; */
+                margin-bottom: 0;
+                border-bottom: 0;
+            }
+        }
+
+        @media (min-width: 768px) { /* mini logo in sidebar */
+            .app.sidebar-mini.sidenav-toggled .logo-icon {
+                display: block !important;
+                height: 2rem;
+            }
+        }
+
         /*.btn-sm{padding:.25rem .5rem;font-size:.875rem;line-height:1.5;border-radius:.2rem}*/
 
         /*.slide-item {
