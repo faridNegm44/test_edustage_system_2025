@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2025 at 11:11 AM
+-- Generation Time: Aug 08, 2025 at 05:08 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35251,7 +35251,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `pa
 (2137, 'محمد حسين محمد', 'dimo330@gmail.com', '2024-04-01 06:58:50', '$2y$10$cOMjDcqeTXfGQTkS6dmAOu/QY4xpvVgwt0LENCguKdfUkdDYQpqJS', 'hash', NULL, 1, NULL, 3, 1, NULL, NULL, '2024-04-01 06:58:50', '2024-04-01 06:58:50'),
 (2138, 'اسامه محمود سامي', 'DIMOO56@GMAIL.COM', '2024-05-01 17:49:56', '$2y$10$cOMjDcqeTXfGQTkS6dmAOu/QY4xpvVgwt0LENCguKdfUkdDYQpqJS', 'hash', NULL, 1, NULL, 3, 1, NULL, NULL, '2024-05-01 17:49:56', '2024-05-01 17:49:56'),
 (2139, 'نايف فرج الظفيري', 'fatimah.s.gh@gmail.com', '2024-05-18 15:51:27', '$2y$10$cOMjDcqeTXfGQTkS6dmAOu/QY4xpvVgwt0LENCguKdfUkdDYQpqJS', 'hash', NULL, 1, NULL, 3, 1, NULL, NULL, '2024-05-18 15:51:27', '2024-05-18 15:51:27'),
-(2140, 'Farid Negm', 'farid@gmail.com', '2021-10-11 18:47:39', '$2y$10$gg5ryMvdG3HQn2cdYru5i.vp7fuS/Q66wRj/jn7r1nFeP/RmTglRa', 'hash', 1, 1, '2025-08-06 09:12:18', 1, 1, 1, NULL, '2021-10-11 18:47:39', '2025-08-06 06:12:18'),
+(2140, 'Farid Negm', 'farid@gmail.com', '2021-10-11 18:47:39', '$2y$10$gg5ryMvdG3HQn2cdYru5i.vp7fuS/Q66wRj/jn7r1nFeP/RmTglRa', 'hash', 1, 1, '2025-08-08 18:05:14', 1, 1, 1, NULL, '2021-10-11 18:47:39', '2025-08-08 15:05:14'),
 (2141, 'فريد نجم ولي أمر', 'faridparent@gmail.com', '2021-10-11 18:47:39', '$2y$10$.DswIieG/9NJ//TWK7pVSuecK0CXwy2MxwrXArKdJ1QXTDGHyU.Lm', 'hash', NULL, 1, NULL, 3, 1, NULL, NULL, '2021-10-11 18:47:39', '2024-05-26 13:25:55'),
 (2142, 'ضياء نجم عيد', 'Hhyoyo1985@gmail.com', '2024-06-02 15:08:30', '$2y$10$cOMjDcqeTXfGQTkS6dmAOu/QY4xpvVgwt0LENCguKdfUkdDYQpqJS', 'hash', NULL, 1, NULL, 3, 1, NULL, NULL, '2024-06-02 15:08:30', '2024-06-02 15:08:30'),
 (2143, 'علي عبد العزيز حسن', 'kawtherfadel72@gmail.com', '2024-07-01 13:02:44', '$2y$10$cOMjDcqeTXfGQTkS6dmAOu/QY4xpvVgwt0LENCguKdfUkdDYQpqJS', 'hash', NULL, 1, NULL, 3, 1, NULL, NULL, '2024-07-01 13:02:44', '2024-07-01 13:02:44'),
