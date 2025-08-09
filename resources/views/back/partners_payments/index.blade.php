@@ -17,15 +17,15 @@
     <script>
         flatpickr(".datePicker");
 
-        let datePickerInstance;
-        $('.modal').on('shown.bs.modal', function () {
-            if (!datePickerInstance) {
-                datePickerInstance = flatpickr(".datePicker", {
-                    dateFormat: "Y-m-d",    
-                    defaultDate: new Date()
-                });
-            }
-        });
+        //let datePickerInstance;
+        //$('.modal').on('shown.bs.modal', function () {
+        //    if (!datePickerInstance) {
+        //        datePickerInstance = flatpickr(".datePicker", {
+        //            dateFormat: "Y-m-d",    
+        //            defaultDate: new Date()
+        //        });
+        //    }
+        //});
     </script>
 
     <script>     

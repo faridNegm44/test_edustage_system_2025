@@ -739,7 +739,20 @@
             });
             
         });
+
+        // start when input number focused
+        $(document).on('focus', 'input[type="number"], .focused, .focus_input', function() {
+            $(this).select();
+        });
+        // end when input number focused
         
+        // start when tr in datatable clicked
+        $(document).on('click', '#example1 tbody tr', function () {
+            $('#example1 tbody tr').removeClass('selected').css('background-color', '');
+            $(this).addClass('selected').css('background-color', 'yellow');
+        });
+
+        // end when tr in datatable clicked
         
         //localStorage.setItem("reloadTabs", Date.now());
         //window.addEventListener("storage", function (event) {

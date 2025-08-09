@@ -474,6 +474,44 @@ Route::group(['prefix' => '/', 'namespace' => 'App\Http\Controllers\Back', 'midd
 
         Route::get('datatable' , 'GroupsController@datatable');
     });
+    
+    // parent-payments Routes   متحصلات من أولياء الأمور
+    Route::group(['prefix' => 'parent-payments'] , function (){
+        Route::get('/' , 'ParentsPaymentsController@index');
+        Route::post('/store' , 'ParentsPaymentsController@store');
+        Route::post('/store_students_to_group' , 'ParentsPaymentsController@store_students_to_group');
+        
+        Route::get('/edit/{id}' , 'ParentsPaymentsController@edit');
+        Route::post('/update/{id}' , 'ParentsPaymentsController@update');
+
+        Route::get('/show_students/{id}/{group}' , 'ParentsPaymentsController@show_students');
+        Route::get('/destroy/{id}' , 'ParentsPaymentsController@destroy');
+        Route::post('/close_group/{id}' , 'ParentsPaymentsController@close_group');
+
+        Route::post('/remove_all_students_by_group/{group}' , 'ParentsPaymentsController@remove_all_students_by_group');
+        Route::post('/remove_one_student/{group}/{student_id}' , 'ParentsPaymentsController@remove_one_student');
+
+        Route::get('datatable' , 'ParentsPaymentsController@datatable');
+    });
+    
+    // teacher-salaries Routes   أجور المدرسين
+    Route::group(['prefix' => 'teacher-salaries'] , function (){
+        Route::get('/' , 'TeacherSalaryController@index');
+        Route::post('/store' , 'TeacherSalaryController@store');
+        Route::post('/store_students_to_group' , 'TeacherSalaryController@store_students_to_group');
+        
+        Route::get('/edit/{id}' , 'TeacherSalaryController@edit');
+        Route::post('/update/{id}' , 'TeacherSalaryController@update');
+
+        Route::get('/show_students/{id}/{group}' , 'TeacherSalaryController@show_students');
+        Route::get('/destroy/{id}' , 'TeacherSalaryController@destroy');
+        Route::post('/close_group/{id}' , 'TeacherSalaryController@close_group');
+
+        Route::post('/remove_all_students_by_group/{group}' , 'TeacherSalaryController@remove_all_students_by_group');
+        Route::post('/remove_one_student/{group}/{student_id}' , 'TeacherSalaryController@remove_one_student');
+
+        Route::get('datatable' , 'TeacherSalaryController@datatable');
+    });
    
     // groups-sessions Routes   حصص المجموعات التعليمية
     Route::group(['prefix' => 'groups-sessions'] , function (){

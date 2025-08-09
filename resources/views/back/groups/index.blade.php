@@ -391,7 +391,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-container" >
-                    <table class="table table-responsive table-bordered table-striped table-hover text-center text-md-nowrap" id="example1" style="max-height: 50vh; overflow: auto;">
+                    <table class="table table-responsive table-bordered table-striped table-hover text-center text-md-nowrap" id="example1" style="max-height: 70vh; overflow: auto;">
                         <thead class="thead-dark">
                             <tr>
                                 <th class="border-bottom-0 nowrap_thead">#</th>
