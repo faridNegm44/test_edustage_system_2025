@@ -177,19 +177,18 @@ class TeacherSalaryController extends Controller
                 return '<span style="font-weight:bold;"> ' . e($res->ThePayType) . '</span>';
             })
             ->addColumn('TheDate', function($res) {
-                $paymentMonth = Carbon::parse($res->TheDate)->month;
-                $currentMonth = Carbon::now()->month;
+                $TheDate = Carbon::parse($res->TheDate);
+                $currentDate = Carbon::today();
 
-
-                if ($paymentMonth != $currentMonth && $paymentMonth != ($currentMonth - 1)) {                
-                    return '<span class="badge badge-danger rounded" style="font-weight:bold;font-size: 12px !important;"> ' . e( $res->TheDate ) . '</span>';
-
-                } else {
+                if ( $currentDate->isSameMonth($TheDate) || $currentDate->copy()->subMonth()->isSameMonth($TheDate)){               
                     return '<span class="" style="font-weight:bold;font-size: 12px !important;"> ' . e( $res->TheDate ) . '</span>';
+        
+                } else {
+                    return '<span class="badge badge-danger rounded" style="font-weight:bold;font-size: 12px !important;"> ' . e( $res->TheDate ) . '</span>';
                 }
             })
             ->addColumn('TheAmount', function($res) {
-                return '<span class="badge badge-purple rounded" style="font-weight:bold;font-size: 14px !important;"> ' . e( display_number($res->TheAmount) ) . '</span>';
+                return '<span class="badge badge-primary rounded" style="font-weight:bold;font-size: 14px !important;width: 80%;"> ' . e( display_number($res->TheAmount) ) . '</span>';
             })
             ->addColumn('TheNotes', function($res) {
                 return '<span class="" data-bs-toggle="popover" data-bs-placement="bottom" title="' . e($res->TheNotes) . '">
@@ -197,13 +196,13 @@ class TeacherSalaryController extends Controller
                         </span>';
             })
             ->addColumn('action', function($res) {
-                $paymentMonth = Carbon::parse($res->TheDate)->month;
-                $currentMonth = Carbon::now()->month;
+                $TheDate = Carbon::parse($res->TheDate);
+                $currentDate = Carbon::today();
 
-
-                if ($paymentMonth != $currentMonth && $paymentMonth != ($currentMonth - 1)) {
-                    return '';
-                } else {
+                if (
+                    $currentDate->isSameMonth($TheDate) ||
+                    $currentDate->copy()->subMonth()->isSameMonth($TheDate)
+                ) {
                     return '
                             <button type="button" class="btn btn-sm btn-outline-danger delete" data-placement="top" data-toggle="tooltip" title="' . __('حذف') . '" res_id="' . e($res->ID) . '" date="' . e($res->TheDate) . '">
                                 <i class="fa fa-trash-alt"></i>
@@ -212,6 +211,8 @@ class TeacherSalaryController extends Controller
                             <button class="btn btn-sm btn-outline-primary edit" data-effect="effect-scale" data-toggle="modal" href="#exampleModalCenter" data-placement="top" data-toggle="tooltip" title="' . __('تعديل') . '" res_id="' . e($res->ID) . '">
                                 <i class="fas fa-marker"></i>
                             </button>';
+                } else {
+                    return '';
                 }
             })
             ->rawColumns(['TheNotes', 'TheDate', 'TheName', 'ThePayType', 'TheAmount', 'status', 'action'])

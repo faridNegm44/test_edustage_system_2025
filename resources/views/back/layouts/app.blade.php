@@ -141,6 +141,9 @@
             }
         }
 
+        .numInputWrapper span.arrowDown {
+            top: 30%;
+        }
         .side-menu__label{
             font-weight: bold !important;
             font-size: 10.5px;

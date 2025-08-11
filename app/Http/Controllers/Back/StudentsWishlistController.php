@@ -16,7 +16,7 @@ class StudentsWishlistController extends Controller
 {
     public function index()
     {
-        $pageNameAr = 'لائحة رغبات الطلاب';
+        $pageNameAr = '📝 لائحة رغبات الطلاب 🎯';
         $pageNameEn = 'students_wishlist';
         $academic_years = DB::table('academic_years')->orderBy('id', 'asc')->get();
 
@@ -125,10 +125,23 @@ class StudentsWishlistController extends Controller
                     ->leftJoin('academic_years', 'academic_years.id', 'tbl_students_years_mat.academic_year')
                     ->select(
                         'tbl_students_years_mat.*', 
-                        'tbl_students.TheName as studentName', 'tbl_students.ThePhone', 'tbl_students.TheTestType',
-                        'tbl_parents.TheName0 as parentName', 'tbl_parents.ThePhone2', 
-                        'tbl_years_mat.TheMat', 'tbl_years_mat.TheYear', 
+                        
+                        'tbl_students.TheName as studentName', 
+                        'tbl_students.ThePhone', 
+                        'tbl_students.TheTestType',
+                        'tbl_students.ThePhone as studentPhone', 
+                        'tbl_students.TheStatus as studentStatus', 
+                        
+                        'tbl_parents.TheEmail as parentEmail', 
+                        'tbl_parents.TheName0 as parentName', 
+                        'tbl_parents.ThePhone1',
+                        'tbl_parents.ThePhone2',
+                         
+                        'tbl_years_mat.TheMat', 
+                        'tbl_years_mat.TheYear',
+                         
                         'tbl_langs.LangName', 
+                       
                         'academic_years.name as academicYearName'
                     )
                     ->orderBy('tbl_students_years_mat.ID', 'desc');
@@ -150,22 +163,7 @@ class StudentsWishlistController extends Controller
 
             $all = $query->get();
 
-            return DataTables::of($all)
-            ->addColumn('ThePhone2', function($res){     
-                if(!$res->ThePhone2){
-                    return '';
-                }else{
-                    return '
-                        <a class="ThePhone2 text-right text-success d-block" href="https://wa.me/'.$res->ThePhone2.'" target="_blank" style="font-size: 12px;">
-                            <i class="fab fa-whatsapp" style="margin: 3px;position: relative;top: 2px;"></i>
-                            '.$res->ThePhone2.'
-                        </a>
-                    ';
-
-                }        
-            }) 
-            ->rawColumns(['ThePhone2'])
-            ->toJson();
+            return DataTables::of($all)->rawColumns([])->toJson();
     }
 
 
@@ -186,10 +184,20 @@ class StudentsWishlistController extends Controller
                     ->leftJoin('academic_years', 'academic_years.id', 'tbl_students_years_mat.academic_year')
                     ->select(
                         'tbl_students_years_mat.*', 
-                        'tbl_students.TheName as studentName', 'tbl_students.ThePhone', 'tbl_students.TheTestType',
-                        'tbl_parents.TheName0 as parentName', 'tbl_parents.ThePhone2', 
-                        'tbl_years_mat.TheMat', 'tbl_years_mat.TheYear', 
+                        
+                        'tbl_students.TheName as studentName', 
+                        'tbl_students.ThePhone as studentPhone', 
+                        'tbl_students.TheTestType',
+                        
+                        'tbl_parents.TheName0 as parentName', 
+                        'tbl_parents.ThePhone1', 
+                        'tbl_parents.ThePhone2', 
+                        
+                        'tbl_years_mat.TheMat', 
+                        'tbl_years_mat.TheYear',
+                         
                         'tbl_langs.LangName', 
+                        
                         'academic_years.name as academicYearName'
                     )
                     ->orderBy('tbl_students_years_mat.ID', 'desc');

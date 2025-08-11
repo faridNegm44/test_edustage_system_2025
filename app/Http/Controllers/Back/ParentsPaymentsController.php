@@ -12,7 +12,8 @@ use Illuminate\Support\Str;
 class ParentsPaymentsController extends Controller
 {
     public function index()
-    {                              
+    {          
+        
         $pageNameAr = 'متحصّلات من أولياء الأمور 💰📚';
         $pageNameEn = 'parent-payments';
 
@@ -179,14 +180,33 @@ class ParentsPaymentsController extends Controller
             ->addColumn('TheName0', function($res) {
                 return '<span class="text-primary" style="font-weight:bold;"> ' . e($res->TheName0) . '</span>';
             })
+            ->addColumn('TheDate', function($res) {
+                $TheDate = Carbon::parse($res->TheDate);
+                $currentDate = Carbon::today();
+
+                if ( $currentDate->isSameMonth($TheDate) || $currentDate->copy()->subMonth()->isSameMonth($TheDate) ) {             
+                    return '<span class="" style="font-weight:bold;font-size: 12px !important;"> ' . e( $res->TheDate ) . '</span>';
+                    
+                } else {
+                    return '<span class="badge badge-danger rounded" style="font-weight:bold;font-size: 12px !important;"> ' . e( $res->TheDate ) . '</span>';
+                }
+            })
             ->addColumn('ThePayType', function($res) {
                 return '<span style="font-weight:bold;"> ' . e($res->ThePayType) . '</span>';
             })
             ->addColumn('TheAmount', function($res) {
+                $res->TheAmount = $res->TheAmount ?? 0;
+                if ($res->TheAmount < 0) {
+                    return '<span class="text-danger rounded" style="font-weight:bold;font-size: 110% !important;"> ' . e($res->TheAmount) . '</span>';
+                }
                 return '<span style="font-weight:bold;font-size: 110% !important;"> ' . e($res->TheAmount) . '</span>';
             })
             ->addColumn('amount_by_currency', function($res) {
-                return '<span class="badge badge-danger" style="font-weight:bold;font-size: 110% !important;"> ' . e($res->amount_by_currency) . '</span>';
+                $res->amount_by_currency = $res->amount_by_currency ?? 0;
+                if ($res->amount_by_currency < 0) {
+                    return '<span class="badge badge-danger rounded" style="font-weight:bold;font-size: 110% !important;width: 80%;"> ' . e($res->amount_by_currency) . '</span>';
+                }
+                return '<span class="badge badge-primary rounded" style="font-weight:bold;font-size: 14px !important;width: 80%;"> ' . e($res->amount_by_currency) . '</span>';
             })
             ->addColumn('TheNotes', function($res) {
                 return '<span class="" data-bs-toggle="popover" data-bs-placement="bottom" title="' . e($res->TheNotes) . '">
@@ -206,25 +226,27 @@ class ParentsPaymentsController extends Controller
                 return '<span class="badge ' . $statusClass . '" style="font-size:12px;"><i class="fas ' . $statusIcon . '"></i> ' . $statusText . '</span>';
             })
             ->addColumn('action', function($res) {
-                $closeButton = $res->status != 'مؤكد' ? '<button class="btn btn-sm btn-dark close_group" data-effect="effect-scale" data-toggle="modal" href="#closeGroupForm" data-placement="top" data-toggle="tooltip" title="' . __('إغلاق المجموعة نهائيا') . '" res_id="' . e($res->ID) . '">
-                            <i class="fas fa-lock"></i>
-                        </button>' : '';
+                $TheDate = Carbon::parse($res->TheDate);
+                $currentDate = Carbon::today();
 
-                return $closeButton . '
-                        <button type="button" class="btn btn-sm btn-danger delete" data-placement="top" data-toggle="tooltip" title="' . __('حذف المجموعة') . '" res_id="' . e($res->ID) . '">
-                            <i class="fa fa-trash-alt"></i>
-                        </button>
-                        <button class="btn btn-sm btn-primary edit" data-effect="effect-scale" data-toggle="modal" href="#editForm" data-placement="top" data-toggle="tooltip" title="' . __('تعديل') . '" res_id="' . e($res->ID) . '">
-                            <i class="fas fa-marker"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-success show_students" data-effect="effect-scale" data-toggle="modal" href="#modalStudents" data-placement="top" data-toggle="tooltip" title="' . __('عرض الطلاب') . '" group_id="' . e($res->ID) . '">
-                            <i class="fas fa-users"></i>
-                        </button>
-                        <a href="' . url('groups-sessions/' . $res->ID) . '" target="_blank" class="btn btn-sm btn-purple" data-effect="effect-scale" data-placement="top" data-toggle="tooltip" title="' . __('الحصص') . '" res_id="' . e($res->ID) . '">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </a>';
+                if ( $currentDate->isSameMonth($TheDate) || $currentDate->copy()->subMonth()->isSameMonth($TheDate) ) {
+                    $closeButton = $res->status != 'مؤكد' ? '<button class="btn btn-sm btn-dark close_group" data-effect="effect-scale" data-toggle="modal" href="#closeGroupForm" data-placement="top" data-toggle="tooltip" title="' . __('إغلاق المجموعة نهائيا') . '" res_id="' . e($res->ID) . '">
+                                <i class="fas fa-lock"></i>
+                            </button>' : '';
+    
+                    return $closeButton . '
+                            <button type="button" class="btn btn-sm btn-outline-danger delete" data-placement="top" data-toggle="tooltip" title="' . __('حذف') . '" res_id="' . e($res->ID) . '">
+                                <i class="fa fa-trash-alt"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary edit" data-effect="effect-scale" data-toggle="modal" href="#editForm" data-placement="top" data-toggle="tooltip" title="' . __('تعديل') . '" res_id="' . e($res->ID) . '">
+                                <i class="fas fa-marker"></i>
+                            </button>';
+                     
+                } else {
+                    return '';
+                }
             })
-            ->rawColumns(['ID', 'TheNotes', 'TheName0', 'ThePayType', 'TheAmount', 'amount_by_currency', 'admin_notes', 'status', 'action'])
+            ->rawColumns(['ID', 'TheDate', 'TheNotes', 'TheName0', 'ThePayType', 'TheAmount', 'amount_by_currency', 'admin_notes', 'status', 'action'])
             ->toJson();
     }
     // end datatable group

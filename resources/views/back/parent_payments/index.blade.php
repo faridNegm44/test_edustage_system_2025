@@ -267,7 +267,7 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th class="border-bottom-0 nowrap_thead">#</th>
-                                <th class="border-bottom-0 nowrap_thead" style="width: 170px !important;min-width: 170px !important;">التحكم</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 70px !important;min-width: 70px !important;">التحكم</th>
                                 <th class="border-bottom-0 nowrap_thead" style="width: 120px !important;min-width: 120px !important;">تاريخ الدفعة</th>
                                 <th class="border-bottom-0 nowrap_thead" style="width: 150px !important;min-width: 150px !important;">ولي الأمر</th>                                
                                 <th class="border-bottom-0 nowrap_thead" style="width: 70px !important;min-width: 70px !important;">المبلغ</th>

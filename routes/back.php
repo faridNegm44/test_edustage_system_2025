@@ -124,7 +124,6 @@ Route::group(['prefix' => '/', 'namespace' => 'App\Http\Controllers\Back', 'midd
 
         Route::get('datatable' , 'ParentController@datatable');
 
-
         // crm routs
         Route::get('/crm_info/{id}' , 'ParentController@crm_info');
         Route::post('/crm_info_update/{id}' , 'ParentController@crm_info_update');
@@ -141,7 +140,7 @@ Route::group(['prefix' => '/', 'namespace' => 'App\Http\Controllers\Back', 'midd
         Route::get('/edit/{id}' , 'StudentsController@edit');
         Route::post('/update/{id}' , 'StudentsController@update');
         Route::get('/destroy/{id}' , 'StudentsController@destroy');
-
+        
         Route::get('datatable' , 'StudentsController@datatable');
     });
     
@@ -479,38 +478,35 @@ Route::group(['prefix' => '/', 'namespace' => 'App\Http\Controllers\Back', 'midd
     Route::group(['prefix' => 'parent-payments'] , function (){
         Route::get('/' , 'ParentsPaymentsController@index');
         Route::post('/store' , 'ParentsPaymentsController@store');
-        Route::post('/store_students_to_group' , 'ParentsPaymentsController@store_students_to_group');
-        
         Route::get('/edit/{id}' , 'ParentsPaymentsController@edit');
         Route::post('/update/{id}' , 'ParentsPaymentsController@update');
-
-        Route::get('/show_students/{id}/{group}' , 'ParentsPaymentsController@show_students');
         Route::get('/destroy/{id}' , 'ParentsPaymentsController@destroy');
-        Route::post('/close_group/{id}' , 'ParentsPaymentsController@close_group');
-
-        Route::post('/remove_all_students_by_group/{group}' , 'ParentsPaymentsController@remove_all_students_by_group');
-        Route::post('/remove_one_student/{group}/{student_id}' , 'ParentsPaymentsController@remove_one_student');
 
         Route::get('datatable' , 'ParentsPaymentsController@datatable');
+
+        // تقرير عن كشف مدفوعات ولي أمر  
+        Route::group(['prefix' => 'report'] , function (){
+            Route::get('/' , 'ReportsParentPaymentsController@index');
+            Route::get('result' , 'ReportsParentPaymentsController@result');
+            Route::get('result/pdf' , 'ReportsParentPaymentsController@result_pdf');
+        });
     });
     
     // teacher-salaries Routes   أجور المدرسين
     Route::group(['prefix' => 'teacher-salaries'] , function (){
         Route::get('/' , 'TeacherSalaryController@index');
-        Route::post('/store' , 'TeacherSalaryController@store');
-        Route::post('/store_students_to_group' , 'TeacherSalaryController@store_students_to_group');
-        
+        Route::post('/store' , 'TeacherSalaryController@store');        
         Route::get('/edit/{id}' , 'TeacherSalaryController@edit');
         Route::post('/update/{id}' , 'TeacherSalaryController@update');
-
-        Route::get('/show_students/{id}/{group}' , 'TeacherSalaryController@show_students');
         Route::get('/destroy/{id}' , 'TeacherSalaryController@destroy');
-        Route::post('/close_group/{id}' , 'TeacherSalaryController@close_group');
-
-        Route::post('/remove_all_students_by_group/{group}' , 'TeacherSalaryController@remove_all_students_by_group');
-        Route::post('/remove_one_student/{group}/{student_id}' , 'TeacherSalaryController@remove_one_student');
-
         Route::get('datatable' , 'TeacherSalaryController@datatable');
+
+        // تقرير عن كشف مدفوعات المدرسين  
+        Route::group(['prefix' => 'report'] , function (){
+            Route::get('/' , 'ReportsTeacherSalaryController@index');
+            Route::get('result' , 'ReportsTeacherSalaryController@result');
+            Route::get('result/pdf' , 'ReportsTeacherSalaryController@result_pdf');
+        });
     });
    
     // groups-sessions Routes   حصص المجموعات التعليمية
