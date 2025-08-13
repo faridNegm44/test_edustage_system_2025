@@ -223,9 +223,8 @@
 						<ul class="slide-menu">
 							<li><a class="slide-item text-light" href="11">كشف حساب ولي أمر</a></li>
 							<li><a class="slide-item text-light" href="{{ url('parent-payments/report') }}">كشف مدغوعات ولي أمر</a></li>
-							<li><a class="slide-item text-light" href="1111">كشف تفقد</a></li>
+							<li><a class="slide-item text-light" href="{{ url('parents/report/attendance') }}">كشف تفقد</a></li>
 							<li><a class="slide-item text-light" href="11111">كشف عام</a></li>
-							<li><a class="slide-item text-light" href="2222">تقيمات أولاد ولي أمر</a></li>
 						</ul>
 					</li>
 					
@@ -241,7 +240,7 @@
 							<li><a class="slide-item text-light" href="3">كشف مدرس تفصيلي - قيمة ثابتة</a></li>
 							<li><a class="slide-item text-light" href="{{ url('teacher-salaries/report') }}">كشف مدفوعات المدرسين</a></li>
 							<li><a class="slide-item text-light" href="5">كشف حصص الطلاب</a></li>
-							<li><a class="slide-item text-light" href="6">كشف إلتزام المدرسين</a></li>
+							<li><a class="slide-item text-light" href="{{ url('teachers/report/commitment') }}">كشف إلتزام المدرسين</a></li>
 						</ul>
 					</li>
 					

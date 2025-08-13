@@ -124,7 +124,7 @@
                             <bold class="text-danger" id="errors-to" style="display: none;"></bold>
                         </div>    
 
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <div>
                                 <button type="submit" class="btn btn-warning-gradient btn-block" style="height: 30px;padding: 0 20px !important;">عرض</button>
                             </div>

@@ -51,6 +51,34 @@ class ParentController extends Controller
             return redirect()->back();
         }
     }
+    
+    public function related_data(Request $request)
+    {
+        $students = DB::table('tbl_students')->where('tbl_students.ParentID', request('parent_id'))->orderBy('TheName', 'asc')->get();
+                
+        $groups = DB::table('tbl_groups_students')
+                    ->leftJoin('tbl_students', 'tbl_students.ID', '=', 'tbl_groups_students.StudentID')
+                    ->join('tbl_groups', 'tbl_groups.ID', '=', 'tbl_groups_students.GroupID')
+                    ->where('tbl_students.ParentID', request('parent_id'))
+                    ->select(
+                        'tbl_groups.ID as groupId',
+                        'tbl_groups.GroupName as groupName' 
+                    )
+                    ->orderBy('tbl_groups.GroupName', 'asc')
+                    ->get();
+
+
+        //return $students;
+
+        if($students->count() > 0){
+            return response()->json([
+                'students' => $students,
+                'groups' => $groups,
+            ]);
+        }else{
+            return response()->json(['no_related' => ' لا يوجد طلاب مسجلين لولي الأمر في الوقت الحالى 👨‍👩‍👧‍👦']);
+        }
+    }
 
     public function store(Request $request)
     {

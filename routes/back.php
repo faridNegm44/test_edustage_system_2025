@@ -98,6 +98,13 @@ Route::group(['prefix' => '/', 'namespace' => 'App\Http\Controllers\Back', 'midd
         Route::get('/destroy/{id}' , 'TeachersController@destroy');
 
         Route::get('datatable' , 'TeachersController@datatable');
+
+        // تقرير عن كشف التزام المدرسين  
+        Route::group(['prefix' => 'report/commitment'] , function (){
+            Route::get('/' , 'ReportsTeacherCommitmentController@index');
+            Route::get('datatable' , 'ReportsTeacherCommitmentController@datatable');
+            Route::get('/result/pdf' , 'ReportsTeacherCommitmentController@result_pdf');
+        });
     });
 
     // teacher_subjects Routes    الصفوف والمواد الدراسية الخاصة بمدرس
@@ -121,8 +128,17 @@ Route::group(['prefix' => '/', 'namespace' => 'App\Http\Controllers\Back', 'midd
         Route::get('/edit/{id}' , 'ParentController@edit');
         Route::post('/update/{id}' , 'ParentController@update');
         Route::get('/destroy/{id}' , 'ParentController@destroy');
-
+    
         Route::get('datatable' , 'ParentController@datatable');
+    
+        Route::get('/related-data' , 'ParentController@related_data');
+
+        
+        // تقرير عن كشف تفقد حضور وغياب الطلاب لولي امر  
+        Route::group(['prefix' => 'report'] , function (){
+            Route::get('/attendance' , 'ReportsParentAttendanceController@index');
+            Route::get('datatable' , 'TeacherSalaryController@datatable');
+        });
 
         // crm routs
         Route::get('/crm_info/{id}' , 'ParentController@crm_info');
@@ -487,7 +503,6 @@ Route::group(['prefix' => '/', 'namespace' => 'App\Http\Controllers\Back', 'midd
         // تقرير عن كشف مدفوعات ولي أمر  
         Route::group(['prefix' => 'report'] , function (){
             Route::get('/' , 'ReportsParentPaymentsController@index');
-            Route::get('result' , 'ReportsParentPaymentsController@result');
             Route::get('result/pdf' , 'ReportsParentPaymentsController@result_pdf');
         });
     });
