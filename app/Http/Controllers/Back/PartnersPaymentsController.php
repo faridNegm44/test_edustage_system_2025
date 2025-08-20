@@ -29,7 +29,7 @@ class PartnersPaymentsController extends Controller
             $this->validate($request, [
                 'TheDate'     => 'required|date',
                 'PartnerID'   => 'required|integer|exists:partners,id',
-                'TheAmount'   => 'required|numeric|min:1',
+                'TheAmount'   => 'required|numeric',
                 'WalletID'    => 'required|integer|exists:tblwallets,WalletID',
                 'TheNotes'    => 'nullable|string',
             ], [
@@ -89,7 +89,7 @@ class PartnersPaymentsController extends Controller
 
         return DataTables::of($all)
             ->addColumn('TheAmount', function($res){
-                return "<span style='font-size: 12px;font-weight: bold;'>".display_number($res->TheAmount)."</span>";
+                return "<span class='badge badge-primary' style='font-size: 15px !important;width: 80%;'>".display_number($res->TheAmount)."</span>";
             })      
             ->addColumn('partnerName', function($res){
                 return $res->partnerName;

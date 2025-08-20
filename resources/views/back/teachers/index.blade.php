@@ -44,8 +44,8 @@
             font-weight: bold;
         }
 
-        tbody td:nth-child(7),
-        tbody td:nth-child(8) {
+        tbody td:nth-child(9),
+        tbody td:nth-child(10) {
             text-align: right;
         }
 
@@ -104,17 +104,27 @@
 
 
 
-        // datatable
+
+
+        // start DataTable
         $(document).ready(function () {
-            $('#example1').DataTable({
+            let table = $('#example1').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: `{{ url($pageNameEn.'/datatable') }}`,
+                ajax: {
+                    url: `{{ url($pageNameEn) }}/datatable`,
+                    type: 'GET',
+                    data: function (d) {
+                        d.from = $('#from').val();
+                        d.to = $('#to').val();
+                        d.academic_year = $('#academic_year').val();
+                    }
+                },
                 dataType: 'json',
                 columns: [
                     {data: 'action', name: 'action', orderable: false},
-                    {data: 'TheName', name: 'TheName'},
                     {data: 'ID', name: 'ID'},
+                    {data: 'TheName', name: 'TheName'},
                     {data: 'TheBirthDate', name: 'TheBirthDate'},
                     {data: 'nat_city', name: 'nat_city'},
                     {data: 'TheEmail', name: 'TheEmail'},
@@ -126,59 +136,31 @@
                     {data: 'TheExExplain', name: 'TheExExplain'},
                     {data: 'TheMethod', name: 'TheMethod'},
                 ],
-                "bDestroy": true,
-                "order": [[ 2, "desc" ]],
+                dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                buttons: [
+                    { extend: 'excel', text: '📊 Excel', className: 'btn btn-outline-dark', exportOptions: { columns: ':visible'} },
+                    { extend: 'print', text: '🖨️ طباعة', className: 'btn btn-outline-dark', exportOptions: { columns: ':visible'}, customize: function (win) { $(win.document.body).css('direction', 'rtl'); } },
+                    { extend: 'colvis', text: '👁️ إظهار/إخفاء الأعمدة', className: 'btn btn-outline-dark' }
+                ],
+                bDestroy: true,
+                order: [[ 1, "desc" ]],
                 language: {sUrl: '{{ asset("back/assets/js/ar_dt.json") }}'},
-                lengthMenu: [[50, 100, 200, -1], [50, 100, 200, "الكل"]]
+                lengthMenu: [[20, 50, 100, 200, -1], [20, 50, 100, 200, "الكل"]]
             });
 
-
-
-            ///////////////////// get data when click btn search
-            $("#search").on('click', function(e){
+            $('#search').on('click', function (e) {
                 e.preventDefault();
-                const from = $("#from").val();
-                const to = $("#to").val();
-                const academic_year = $("#academic_year").val();
                 $("#overlay_page").show();
-                                    
-                $('#example1').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url: `{{ url($pageNameEn.'/datatable') }}`,
-                        type: 'GET',
-                        data: function (d) {
-                            d.from = from;
-                            d.to = to;
-                            d.academic_year = academic_year;
-                        }
-                    },
-                    columns: [
-                        {data: 'action', name: 'action', orderable: false},
-                        {data: 'TheName', name: 'TheName'},
-                        {data: 'ID', name: 'ID'},
-                        {data: 'TheBirthDate', name: 'TheBirthDate'},
-                        {data: 'nat_city', name: 'nat_city'},
-                        {data: 'TheEmail', name: 'TheEmail'},
-                        {data: 'TheStatus', name: 'TheStatus'},
-                        {data: 'TheDate1', name: 'TheDate1'},
-                        {data: 'phones', name: 'phones'},
-                        {data: 'whats', name: 'whats'},
-                        {data: 'academicYearName', name: 'academicYearName'},
-                        {data: 'TheExExplain', name: 'TheExExplain'},
-                        {data: 'TheMethod', name: 'TheMethod'},
-                    ],
-                    "bDestroy": true,
-                    language: {sUrl: '{{ asset("back/assets/js/ar_dt.json") }}'},
-                    order: [[0, "DESC"]],
-                    lengthMenu: [[50, 100, 200, -1], [50, 100, 200, "الكل"]],
-                    initComplete: function(settings, json) {
-                        $("#overlay_page").hide();
-                    }
-                });
+                table.ajax.reload();
+            });
+
+            table.on('xhr.dt', function () {
+                $('#overlay_page').hide();
             });
         });
+        // end DataTable
     </script>
 
 
@@ -206,7 +188,7 @@
         </div>
         <!-- breadcrumb -->
 
-        <div class="card bg bg-warning-gradient">
+        <div class="card bg bg-primary">
             <div class="card-body">
 
                 <div class="row justify-content-center">
@@ -238,7 +220,7 @@
 
                     <div class="col-md-2">
                         <div>
-                            <button id="search" class="btn btn-primary btn-block" style="height: 36px;font-size: 12px;font-weight: bold;">بحث</button>
+                            <button id="search" class="btn btn-warning-gradient btn-block" style="height: 36px;font-size: 12px;font-weight: bold;">بحث</button>
                         </div>
                         <bold class="text-danger" id="errors-to" style="display: none;"></bold>
                     </div>    
@@ -248,26 +230,27 @@
         </div>
         
         @include('back.teachers.form')
+        @include('back.layouts.duplicated_emails_modal')
 
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover text-right text-md-nowrap" id="example1" style="width: 100%;">
+                    <table class="table table-striped table-hover text-center text-md-nowrap" id="example1" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th class="border-bottom-0 nowrap_thead" style="width: 110px !important;min-width: 110px !important;">التحكم</th>
-                                <th class="border-bottom-0 nowrap_thead" style="width: 100px !important;min-width: 100px !important;">الإسم</th>
-                                <th class="border-bottom-0 nowrap_thead">كود</th>
-                                <th class="border-bottom-0 nowrap_thead">تاريخ الميلاد</th>
-                                <th class="border-bottom-0 nowrap_thead" style="width: 80px !important;min-width: 80px !important;"> الإقامة</th>
-                                <th class="border-bottom-0 nowrap_thead">الإيميل</th>
-                                <th class="border-bottom-0 nowrap_thead">الحالة</th>
-                                <th class="border-bottom-0 nowrap_thead">تاريخ الحالة</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 70px !important;min-width: 70px !important;">كود</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 150px !important;min-width: 150px !important;">الإسم</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 90px !important;min-width: 90px !important;">تاريخ الميلاد</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 120px !important;min-width: 120px !important;"> الإقامة</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 110px !important;min-width: 110px !important;">الإيميل</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 80px !important;min-width: 80px !important;">الحالة</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 110px !important;min-width: 110px !important;">تاريخ الحالة</th>
                                 <th class="border-bottom-0 nowrap_thead" style="width: 80px !important;min-width: 80px !important;">موبايل</th>
                                 <th class="border-bottom-0 nowrap_thead" style="width: 80px !important;min-width: 80px !important;">واتساب</th>
-                                <th class="border-bottom-0 nowrap_thead">السنة</th>
-                                <th class="border-bottom-0 nowrap_thead" style="width: 100px !important;min-width: 100px !important;">شرح الخبرة</th>
-                                <th class="border-bottom-0 nowrap_thead" style="width: 100px !important;min-width: 100px !important;">المنهج</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 110px !important;min-width: 110px !important;">السنة</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 150px !important;min-width: 150px !important;">شرح الخبرة</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 150px !important;min-width: 150px !important;">المنهج</th>
                             </tr>
                         </thead>
                     </table>

@@ -80,7 +80,6 @@ class PartnersController extends Controller
                         'commission_percentage' => request('commission_percentage'),
                         'academic_year' => GetAcademicYaer(),
                     ]);
-    
                 });
             }
         //}else{
@@ -231,7 +230,7 @@ class PartnersController extends Controller
                 }
             })
             ->addColumn('commission_percentage', function($res){
-                return  "<strong class='badge badge-primary' style='font-size: 15px;'>".display_number($res->commission_percentage)." %</strong>";
+                return  "<strong class='badge badge-primary' style='font-size: 110% !important;'>".display_number($res->commission_percentage)." %</strong>";
             })
             //->addColumn('remaining_money', function($res){
             //    if($res->remaining_money > 0){

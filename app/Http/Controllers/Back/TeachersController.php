@@ -53,6 +53,11 @@ class TeachersController extends Controller
     {
         if (request()->ajax())
         {
+            $duplicated_emails = DB::table('users')->where('email', request('TheEmail'))->get();
+            if(count($duplicated_emails) > 0){
+                return response()->json(['duplicated_emails' => $duplicated_emails]);
+            }
+            
             $this->validate($request, [
                 'TheName'        => 'required|string|max:70',
                 'NatID'          => 'required|integer|exists:tbl_nat,ID',
@@ -151,6 +156,34 @@ class TeachersController extends Controller
         }
     }
 
+    public function related_data(Request $request)
+    {
+        $months = DB::table('tbl_students')->where('tbl_students.ParentID', request('parent_id'))->orderBy('TheName', 'asc')->get();
+                
+        $groups = DB::table('tbl_groups_students')
+                    ->leftJoin('tbl_students', 'tbl_students.ID', '=', 'tbl_groups_students.StudentID')
+                    ->join('tbl_groups', 'tbl_groups.ID', '=', 'tbl_groups_students.GroupID')
+                    ->where('tbl_students.ParentID', request('parent_id'))
+                    ->select(
+                        'tbl_groups.ID as groupId',
+                        'tbl_groups.GroupName as groupName' 
+                    )
+                    ->orderBy('tbl_groups.GroupName', 'asc')
+                    ->get();
+
+
+        return $months;
+
+        if($months->count() > 0){
+            return response()->json([
+                'months' => $months,
+                'groups' => $groups,
+            ]);
+        }else{
+            return response()->json(['no_related' => ' لا يوجد طلاب مسجلين لولي الأمر في الوقت الحالى 👨‍👩‍👧‍👦']);
+        }
+    }
+    
     public function edit($id){
         
         if(request()->ajax()){
@@ -311,8 +344,9 @@ class TeachersController extends Controller
                         
         return DataTables::of($all)
             ->addColumn('TheName', function($res){
+                // href="'.url('teachers/show/'.$res->ID).'" target="_blank"
                 return '<strong>
-                            <a href="'.url('teachers/show/'.$res->ID).'" target="_blank">'.$res->TheName.'</a>
+                            <a style="font-size: 12px !important;color: blue;">'.$res->TheName.'</a>
                         </strong>';
             }) 
             ->addColumn('nat_city', function($res){
@@ -322,7 +356,7 @@ class TeachersController extends Controller
                         </div>';
             }) 
             ->addColumn('ID', function($res){
-                return '<strong>'.$res->ID.'</strong>';
+                return '<strong style="font-size: 12px !important;">'.$res->ID.'</strong>';
             }) 
             ->addColumn('phones', function($res){
                 $phones = '
@@ -347,13 +381,13 @@ class TeachersController extends Controller
             
             ->addColumn('TheStatus', function($res){
                 if($res->TheStatus == 'جديد'){
-                    return '<div class="badge badge-dark text-white">جديد</div>';
+                    return '<div class="badge badge-dark text-white" style="font-size: 110% !important;width: 60%;">جديد</div>';
                 }
                 elseif($res->TheStatus == 'مفعل'){
-                    return '<div class="badge badge-success text-white">مفعل</div>';
+                    return '<div class="badge badge-success text-white" style="font-size: 110% !important;width: 60%;">مفعل</div>';
                 }
                 elseif($res->TheStatus == 'غير مفعل'){
-                    return '<div class="badge badge-danger text-white">غير مفعل</div>';
+                    return '<div class="badge badge-danger text-white" style="font-size: 110% !important;width: 60%;">غير مفعل</div>';
                 }
             })
             ->addColumn('TheExExplain', function($res){

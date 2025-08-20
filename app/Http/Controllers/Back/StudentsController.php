@@ -23,9 +23,10 @@ class StudentsController extends Controller
         $types_of_education = DB::table('tbl_langs')->get();
         $nats = DB::table('tbl_nat')->where('status', 1)->get();
         $cities = DB::table('tbl_cities')->where('status', 1)->get();
-        $parents = DB::table('tbl_parents')->where('TheStatus', 'مفعل')->orderBy('TheName0', 'asc')->get();
-
-        return view('back.students.index' , compact('pageNameAr' , 'pageNameEn', 'types_of_education', 'nats', 'cities', 'parents'));
+        $parents = DB::table('tbl_parents')->orderBy('TheName0', 'asc')->get();
+        $academic_years = DB::table('academic_years')->orderBy('id', 'asc')->get();
+        
+        return view('back.students.index' , compact('pageNameAr' , 'pageNameEn', 'types_of_education', 'nats', 'cities', 'parents', 'academic_years'));
     }
     
     public function show($id)
@@ -44,6 +45,11 @@ class StudentsController extends Controller
     public function store(Request $request)
     {
         if (request()->ajax()){
+            $duplicated_emails = DB::table('users')->where('email', request('TheEmail'))->get();
+            if(count($duplicated_emails) > 0){
+                return response()->json(['duplicated_emails' => $duplicated_emails]);
+            }
+            
             $this->validate($request , [
                 'ParentID' => 'required|integer|exists:tbl_parents,ID',
                 'TheName' => 'required|max:70',
@@ -104,6 +110,7 @@ class StudentsController extends Controller
                 ]);
 
                 DB::table('tbl_students')->insert([
+                    'ID' => $userId,
                     'UserID' => $userId,
                     'TheDate1' => request('TheStatusDate') ?? Carbon::now()->format('Y-m-d'),
                     'TheName' => request('TheName'),
@@ -128,7 +135,7 @@ class StudentsController extends Controller
     public function edit($id)
     {
         if(request()->ajax()){
-            $find = DB::table('tbl_students')->where('UserID', $id)->first();
+            $find = DB::table('tbl_students')->where('ID', $id)->first();
             return response()->json($find);
         }
         return view('back.welcome');
@@ -224,10 +231,8 @@ class StudentsController extends Controller
                 return response()->json(['foundedData' => 'لا يمكن حذف الطالب لأنه مسجل له رغبات حالياً 🎓📝']);
             }else{
                 DB::transaction(function () use ($id){
-                    $find = DB::table('tbl_students')->where('ID', $id)->first();
-
                     DB::table('tbl_students')->where('ID', $id)->delete();
-                    DB::table('users')->where('id', $find->UserID)->delete();
+                    DB::table('users')->where('id', $id)->delete();
                 });
             }
         }
@@ -237,9 +242,13 @@ class StudentsController extends Controller
 
     ///////////////////////////////////////////////  datatable  ////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public function datatable()
+    public function datatable(Request $request)
     {        
-        $all = DB::table('tbl_students')
+        $academic_year = $request->academic_year;
+        $from = $request->from ?? null;
+        $to = $request->to ?? null;
+        
+        $query = DB::table('tbl_students')
                     ->leftJoin('tbl_nat', 'tbl_nat.ID', 'tbl_students.NatID')
                     ->leftJoin('tbl_parents', 'tbl_parents.ID', 'tbl_students.ParentID')
                     ->leftJoin('tbl_cities', 'tbl_cities.ID', 'tbl_students.CityID')
@@ -250,43 +259,57 @@ class StudentsController extends Controller
                         'tbl_nat.TheName as NatName', 
                         'tbl_cities.TheCity as CityName',
                         'academic_years.name as academicYearName'
-                    )
-                    ->get();
+                    );
+        
+        if ($from && $to) {
+            $query->whereBetween('tbl_students.TheDate1', [$from, $to]);
+        } elseif ($from) {
+            $query->where('tbl_students.TheDate1', '>=', $from);
+        } elseif ($to) {
+            $query->where('tbl_students.TheDate1', '<=', $to);
+        }
+        
+        if($academic_year){
+            $query->where('tbl_students.academic_year', $academic_year);
+        }
+
+        $all = $query->get();
 
         return DataTables::of($all)
             ->addColumn('TheName', function($res){
-                return '<strong>
-                            <a href="'.url('students/show/'.$res->ID).'" target="_blank">'.$res->TheName.' '.$res->parentName.'</a>
+                //href="'.url('students/show/'.$res->ID).'" target="_blank"
+                return '<strong >
+                            <a style="font-size: 12px !important;color: blue;">'.$res->TheName.' '.$res->parentName.'</a>
                         </strong>';
             }) 
             ->addColumn('nat_city', function($res){
                 return '<div>
-                            <span style="margin: 0 5px !important;">'.$res->NatName.'</span>
+                            <span style="margin: 0 !important;">'.$res->NatName.'</span>
                             <span style="margin: 0 5px !important;">'.$res->CityName.'</span>
                         </div>';
             }) 
             ->addColumn('ID', function($res){
-                return '<strong>'.$res->ID.'</strong>';
+                return '<strong style="font-size: 12px !important;">'.$res->ID.'</strong>';
             }) 
             ->addColumn('phones', function($res){
                 $phones = '
-                    <a class="ThePhone1 text-right text-primary" href="tel:'.$res->ThePhone.'" target="_blank">
+                    <a class="ThePhone text-right text-primary" href="tel:'.$res->ThePhone.'" target="_blank">
+                        <i class="fas fa-phone" style="margin: 3px;position: relative;top: 2px;font-size: 15px;"></i>
                         '.$res->ThePhone.'
                     </a>
                 ';
-
+                            
                 return $phones;
-            }) 
-            
+            })
             ->addColumn('TheStatus', function($res){
                 if($res->TheStatus == 'جديد'){
-                    return '<div class="badge badge-dark text-white">جديد</div>';
+                    return '<div class="badge badge-dark text-white" style="font-size: 110% !important;width: 100%;">جديد</div>';
                 }
                 elseif($res->TheStatus == 'مفعل'){
-                    return '<div class="badge badge-success text-white">مفعل</div>';
+                    return '<div class="badge badge-success text-white" style="font-size: 110% !important;width: 100%;">مفعل</div>';
                 }
                 elseif($res->TheStatus == 'غير مفعل'){
-                    return '<div class="badge badge-danger text-white">غير مفعل</div>';
+                    return '<div class="badge badge-danger text-white" style="font-size: 110% !important;width: 100%;">غير مفعل</div>';
                 }
             })
             ->addColumn('action', function($res){
@@ -295,11 +318,11 @@ class StudentsController extends Controller
                         <i class="fa fa-trash"></i>
                     </button>
 
-                    <button type="button" class="btn btn-sm btn-outline-primary edit" data-effect="effect-scale" data-toggle="modal" href="#exampleModalCenter" data-placement="top" data-toggle="tooltip" title="تعديل" student_id="'.$res->UserID.'">
+                    <button type="button" class="btn btn-sm btn-outline-primary edit" data-effect="effect-scale" data-toggle="modal" href="#exampleModalCenter" data-placement="top" data-toggle="tooltip" title="تعديل" student_id="'.$res->ID.'">
                         <i class="fas fa-marker"></i>
                     </button>
 
-                    <a href="'.url('students_wishlist').'/'.$res->ID.'" target="_blank" class="btn btn-sm btn-outline-success edit favourite_subjects" data-effect="effect-scale" data-placement="top" data-toggle="tooltip" title="رغبات الطالب" res_id="'.$res->UserID.'">
+                    <a href="'.url('students_wishlist').'/'.$res->ID.'" target="_blank" class="btn btn-sm btn-outline-success edit favourite_subjects" data-effect="effect-scale" data-placement="top" data-toggle="tooltip" title="رغبات الطالب" res_id="'.$res->ID.'">
                         <i class="fa fa-heart"></i>
                     </a>
                 ';

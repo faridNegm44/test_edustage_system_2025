@@ -54,15 +54,20 @@
             }
         });
         
+        // start DataTable
         $(document).ready(function () {
-            // selectize
-            $('.selectize').selectize();
-            
-            // datatable
-            $('#example1').DataTable({
+            let table = $('#example1').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: `{{ url($pageNameEn) }}/datatable`,
+                ajax: {
+                    url: `{{ url($pageNameEn) }}/datatable`,
+                    type: 'GET',
+                    data: function (d) {
+                        d.from = $('#from').val();
+                        d.to = $('#to').val();
+                        d.academic_year = $('#academic_year').val();
+                    }
+                },
                 dataType: 'json',
                 columns: [
                     {data: 'ID', name: 'ID'},
@@ -73,54 +78,39 @@
                     {data: 'WalletName', name: 'WalletName'},
                     {data: 'academicYearName', name: 'academicYearName'},
                 ],
-                "bDestroy": true,
-                "order": [[ 0, "desc" ]],
+                dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                buttons: [
+                    { extend: 'excel', text: '📊 Excel', className: 'btn btn-outline-dark', exportOptions: { columns: ':visible'} },
+                    { extend: 'print', text: '🖨️ طباعة', className: 'btn btn-outline-dark', exportOptions: { columns: ':visible'}, customize: function (win) { $(win.document.body).css('direction', 'rtl'); } },
+                    { extend: 'colvis', text: '👁️ إظهار/إخفاء الأعمدة', className: 'btn btn-outline-dark' }
+                ],
+                bDestroy: true,
+                order: [[ 1, "desc" ]],
                 language: {sUrl: '{{ asset("back/assets/js/ar_dt.json") }}'},
-                lengthMenu: [[20, 50, 100, -1], [20, 50, 100, "الكل"]]
+                lengthMenu: [[20, 50, 100, 200, -1], [20, 50, 100, 200, "الكل"]]
             });
-            
-            
-            
-            ///////////////////// get data when click btn search
-            $("#search").on('click', function(e){
+
+            $('#search').on('click', function (e) {
                 e.preventDefault();
-                const from = $("#from").val();
-                const to = $("#to").val();
-                const academic_year = $("#academic_year").val();
-    
                 $("#overlay_page").show();
-                            
-                $('#example1').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url: `{{ url($pageNameEn) }}/datatable`,
-                        type: 'GET',
-                        data: function (d) {
-                            d.from = from;
-                            d.to = to;
-                            d.academic_year = academic_year;
-                        }
-                    },
-                    dataType: 'json',
-                    columns: [
-                        {data: 'ID', name: 'ID'},
-                        {data: 'TheDate', name: 'TheDate'},
-                        {data: 'partnerName', name: 'partnerName'},
-                        {data: 'TheAmount', name: 'TheAmount'},
-                        {data: 'TheNotes', name: 'TheNotes'},
-                        {data: 'WalletName', name: 'WalletName'},
-                        {data: 'academicYearName', name: 'academicYearName'},
-                    ],
-                    "bDestroy": true,
-                    "order": [[ 0, "desc" ]],
-                    language: {sUrl: '{{ asset("back/assets/js/ar_dt.json") }}'},
-                    lengthMenu: [[50, 100, 200, -1], [50, 100, 200, "الكل"]],
-                    initComplete: function(settings, json) {
-                        $("#overlay_page").hide();
-                    }
-                });
+                table.ajax.reload();
             });
+
+            table.on('xhr.dt', function () {
+                $('#overlay_page').hide();
+            });
+        });
+        // end DataTable
+
+
+
+        $(document).ready(function () {
+            // selectize
+            $('.selectize').selectize();
+            
+    
         });
     </script>
 
@@ -149,7 +139,7 @@
         </div>
         <!-- breadcrumb -->
 
-        <div class="card bg bg-warning-gradient">
+        <div class="card bg bg-primary">
             <div class="card-body">
 
                 <div class="row justify-content-center">
@@ -181,7 +171,7 @@
 
                     <div class="col-md-2">
                         <div>
-                            <button id="search" class="btn btn-primary btn-block" style="height: 36px;font-size: 12px;font-weight: bold;">بحث</button>
+                            <button id="search" class="btn btn-warning-gradient btn-block" style="height: 36px;font-size: 12px;font-weight: bold;">بحث</button>
                         </div>
                         <bold class="text-danger" id="errors-to" style="display: none;"></bold>
                     </div>    
@@ -198,13 +188,13 @@
                     <table class="table table-bordered table-striped table-hover text-center text-md-nowrap" id="example1">
                         <thead>
                             <tr>
-                                <th class="border-bottom-0">#</th>
-                                <th class="border-bottom-0">تاريخ العملية</th>
-                                <th class="border-bottom-0">الشريك</th>
-                                <th class="border-bottom-0">المبلغ</th>
-                                <th class="border-bottom-0">ملاحظات</th>
-                                <th class="border-bottom-0">المحفظة</th>
-                                <th class="border-bottom-0">السنة الأكاديمية</th>
+                                <th class="border-bottom-0" style="width: 50px !important;max-width: 50px !important;">#</th>
+                                <th class="border-bottom-0" style="width: 80px !important;max-width: 80px !important;">تاريخ العملية</th>
+                                <th class="border-bottom-0" style="width: 100px !important;max-width: 100px !important;">الشريك</th>
+                                <th class="border-bottom-0" style="width: 70px !important;max-width: 70px !important;">المبلغ</th>
+                                <th class="border-bottom-0" style="width: 200px !important;max-width: 200px !important;">ملاحظات</th>
+                                <th class="border-bottom-0" style="width: 100px !important;max-width: 100px !important;">المحفظة</th>
+                                <th class="border-bottom-0" style="width: 100px !important;max-width: 100px !important;">السنة الأكاديمية</th>
                             </tr>
                         </thead>                                
                     </table>

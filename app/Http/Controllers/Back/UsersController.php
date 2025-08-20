@@ -38,8 +38,13 @@ class UsersController extends Controller
 
     public function store(Request $request)
     {
-
-        if (request()->ajax()){
+        if (request()->ajax())
+        {
+            $duplicated_emails = DB::table('users')->where('email', request('email'))->get();
+            if(count($duplicated_emails) > 0){
+                return response()->json(['duplicated_emails' => $duplicated_emails]);
+            }
+            
             $this->validate($request , [
                 'name' => 'required|string|max:250|unique:users,name',
                 'email' => 'required|unique:users,email',

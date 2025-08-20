@@ -13,7 +13,7 @@
               @csrf
               <input type="hidden" id="teacher_id" value="" />               
 
-              <div class="bg-info-transparent" style="padding: 15px 30px !important;">
+              <div class="" style="padding: 15px 30px !important;">
                   <div class="row row-xs">                 
 
                      {{------------------------ start right ----------------------}}
@@ -202,21 +202,21 @@
                         </div>
 
                         <div class="col-lg-6 col-12">
-                          <label for="TheExExplain">شرح الخبرة السابقة في التدريس الأونلاين</label>
-                          <div>
-                            <textarea class="form-control dataInput" placeholder="شرح الخبرة السابقة في التدريس الأونلاين" id="TheExExplain" name="TheExExplain" rows="2"></textarea>
-                          </div>
-                          <bold class="text-danger" id="errors-TheExExplain" style="display: none;"></bold>
-                        </div>
-                       
-                        <div class="col-lg-6 col-12">
                           <label for="TheMethod">المنهج</label>
                           <div>
-                            <textarea class="form-control dataInput" placeholder="المنهج" id="TheMethod" name="TheMethod" rows="2"></textarea>
+                            <textarea class="form-control dataInput" placeholder="المنهج" id="TheMethod" name="TheMethod" rows="4"></textarea>
                           </div>
                           <bold class="text-danger" id="errors-TheMethod" style="display: none;"></bold>
                         </div>
                         
+                        <div class="col-lg-6 col-12">
+                          <label for="TheExExplain">شرح الخبرة السابقة في التدريس الأونلاين</label>
+                          <div>
+                            <textarea class="form-control dataInput" placeholder="شرح الخبرة السابقة في التدريس الأونلاين" id="TheExExplain" name="TheExExplain" rows="4"></textarea>
+                          </div>
+                          <bold class="text-danger" id="errors-TheExExplain" style="display: none;"></bold>
+                        </div>
+                       
                       </div>                   
                     </div>
                   </div>

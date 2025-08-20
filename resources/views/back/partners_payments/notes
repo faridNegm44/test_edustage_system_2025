@@ -1,2 +1,3 @@
 add colums name is => PartnerID
 add colums name is => commission_percentage decimal(5,2) def=> 0
+TheNotes default val == null جعلها 

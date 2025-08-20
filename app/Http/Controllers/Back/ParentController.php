@@ -17,12 +17,14 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
 
 class ParentController extends Controller
 {
     public function index()
     {
-        //$foundedData = DB::table('tbl_students')->where('tbl_students.ParentID', 9098)->first();
+        //$      = DB::table('tbl_students')->where('tbl_students.ParentID', 9098)->first();
         //dd($foundedData);
 
         $pageNameAr = 'أولياء الأمور';
@@ -66,8 +68,7 @@ class ParentController extends Controller
                     )
                     ->orderBy('tbl_groups.GroupName', 'asc')
                     ->get();
-
-
+                    
         //return $students;
 
         if($students->count() > 0){
@@ -82,7 +83,12 @@ class ParentController extends Controller
 
     public function store(Request $request)
     {
-        if (request()->ajax()){
+        if (request()->ajax())
+        {
+            $duplicated_emails = DB::table('users')->where('email', request('TheEmail'))->get();
+            if(count($duplicated_emails) > 0){
+                return response()->json(['duplicated_emails' => $duplicated_emails]);
+            }
 
             $this->validate($request , [
                 'TheName0' => 'max:70|unique:tbl_parents,TheName0',
@@ -117,7 +123,6 @@ class ParentController extends Controller
                 'TheNotes' => 'ملاحظات',
             ]);
 
-            // start db transaction
             DB::transaction(function () {
                 $name = request('TheName1').' '.request('TheName2').' '.request('TheName3');
                 
@@ -173,7 +178,7 @@ class ParentController extends Controller
                 'TheName1' => 'required|string|max:20',
                 'TheName2' => 'required|string|max:20',
                 'TheName3' => 'required|string|max:20',
-                'TheEmail' => 'required|string|max:50|unique:users,email,'.$id.',ID',
+                'TheEmail' => 'required|string|max:50|unique:users,email,'.$id,
                 'ThePhone1' => 'required|numeric|unique:tbl_parents,ThePhone1,'.$id.',ID',
                 'ThePhone2' => 'required|numeric|unique:tbl_parents,ThePhone2,'.$id.',ID',
                 'NatID' => 'required|integer|exists:tbl_nat,ID',
@@ -253,6 +258,7 @@ class ParentController extends Controller
                 DB::transaction(function() use($id){
                     DB::table('tbl_parents')->where('ID', $id)->delete();
                     DB::table('users')->where('id', $id)->delete();
+                    DB::table('crm_columns_values')->where('parent_id', $id)->delete();
                 });
             }
         }
@@ -294,8 +300,9 @@ class ParentController extends Controller
                         
         return DataTables::of($all)
             ->addColumn('TheName0', function($res){
+                // href="'.url('parents/show/'.$res->ID).'" target="_blank"
                 return '<strong>
-                            <a href="'.url('parents/show/'.$res->ID).'" target="_blank">'.$res->TheName0.'</a>
+                            <a style="font-size: 12px !important;color: blue;">'.$res->TheName0.'</a>
                         </strong>';
             }) 
             ->addColumn('nat_city', function($res){
@@ -305,7 +312,7 @@ class ParentController extends Controller
                         </div>';
             }) 
             ->addColumn('ID', function($res){
-                return '<strong>'.$res->ID.'</strong>';
+                return '<strong style="font-size: 12px !important;">'.$res->ID.'</strong>';
             }) 
             ->addColumn('phones', function($res){
                 $phones = '
@@ -330,25 +337,37 @@ class ParentController extends Controller
             
             ->addColumn('TheStatus', function($res){
                 if($res->TheStatus == 'جديد'){
-                    return '<div class="badge badge-dark text-white">جديد</div>';
+                    return '<div class="badge badge-dark text-white" style="font-size: 100% !important;width: 60%;">جديد</div>';
                 }
                 elseif($res->TheStatus == 'مفعل'){
-                    return '<div class="badge badge-success text-white">نشط</div>';
+                    return '<div class="badge badge-success text-white" style="font-size: 100% !important;width: 60%;">نشط</div>';
                 }
                 elseif($res->TheStatus == 'غير مفعل'){
-                    return '<div class="badge badge-danger text-white">معطل</div>';
+                    return '<div class="badge badge-danger text-white" style="font-size: 100% !important;width: 60%;">معطل</div>';
                 }
+            })
+            ->addColumn('TheNotes', function($res){
+                return '<span data-bs-toggle="popover" data-bs-placement="bottom" title="'.$res->TheNotes.'" style="cursor:pointer;color:#007bff;">
+                    '.Str::limit($res->TheNotes, 40).'
+                </span>';
             })
             ->addColumn('action', function($res){
                 return '
-                    <button type="button" class="btn btn-sm btn-outline-dark crm_info" data-effect="effect-scale" data-toggle="modal" href="#crmModal" data-placement="top" data-toggle="tooltip" title="معلومات crm" parent_id="'.$res->ID.'">
-                        <i class="fas fa-info-circle"></i>
-                    </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary dropdown-toggle dropdown_toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 12px !important;">
+                            <i class="fas fa-info-circle"></i> CRM
+                        </button>
+                        <div class="dropdown-menu" style="background: #e7e4e4ff;">
+                            <a type="button"  class="dropdown-item crm_info" data-effect="effect-scale" data-toggle="modal" href="#crmModal" data-placement="top" data-toggle="tooltip" title="معلومات crm" parent_id="'.$res->ID.'" style="padding: 4px 6px !important;font-size: 11px;">
+                                <i class="fas fa-info-circle text-dark"></i> معلومات crm
+                            </a>
 
-                    <a href="'.url('parents/report/crm_pdf/'.$res->ID).'" target="_blank" class="btn btn-sm btn-outline-success print" data-effect="effect-scale" data-placement="top" data-toggle="tooltip" title="طباعة crm" parent_id="'.$res->ID.'">
-                        <i class="fas fa-print"></i>
-                    </a>
-
+                            <a href="'.url('parents/report/crm_pdf/'.$res->ID).'" target="_blank" class="dropdown-item print" style="padding: 4px 6px !important;font-size: 11px;" parent_id="'.$res->ID.'">
+                                <i class="fas fa-print text-dark"></i> طباعة crm
+                            </a>
+                        </div>
+                    </div>
+                    
                     <button class="btn btn-sm btn-outline-danger delete" data-placement="top" data-toggle="tooltip" title="حذف" parent_id="'.$res->ID.'" parent_name="'.$res->TheName0.'">
                         <i class="fa fa-trash"></i>
                     </button>
@@ -358,15 +377,13 @@ class ParentController extends Controller
                     </button>
                 ';                
             })
-            ->rawColumns(['TheName0', 'ID', 'nat_city', 'TheStatus', 'phones', 'whats', 'action'])
+            ->rawColumns(['TheName0', 'ID', 'nat_city', 'TheStatus', 'phones', 'TheNotes', 'whats', 'action'])
             ->toJson();
     }
 
 
 
-
-
-
+    
     ///////////////////////////////////////////////  crm  ///////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function crm_info($id)
@@ -377,6 +394,7 @@ class ParentController extends Controller
                                         ->orderBy('order', 'asc')
                                         ->leftJoin('crm_columns_values', 'crm_columns_values.column_id', 'crm_columns_names.id')
                                         ->where('crm_columns_values.parent_id', $id)
+                                        ->where('crm_columns_names.status', '=' , 1)
                                         ->select(
                                             'crm_columns_names.id as crmColumnNameId',
                                             'crm_columns_names.name_ar as crmColumnName',
@@ -391,9 +409,10 @@ class ParentController extends Controller
 
             $crmNamesEmpty = CrmColumnsNames::orderBy('category', 'asc')
                                             ->orderBy('order', 'asc')
+                                            ->where('status', '=', 1)
                                             ->get();
 
-                                            // dd($crmNames);
+                                            //return $crmNamesEmpty;
 
             return response()->json([
                 'parent' => $parent,
@@ -407,29 +426,22 @@ class ParentController extends Controller
 
     public function crm_info_update(Request $request, $id)
     {
-        dd(request('columnValue'));
-        $columnValue = request('columnValue');
-        $parentId = request('parent_id');
-
-        for ($i = 0; $i < count($columnValue); $i++) {
-            $data = [
-                'parent_id' => $parentId,
-                'column_id' => ($i + 1),
-                'value' => $columnValue[$i],
-            ];
-
+        foreach($request->columnValue as $index => $value ){
             CrmColumnsValues::updateOrInsert(
-                ['parent_id' => $parentId, 'column_id' => ($i + 1)],
-                $data
+                [ 'parent_id' => $id, 'column_id' => $request->columnId[$index] ],
+                [
+                    'parent_id' => $id,
+                    'column_id' => $request->columnId[$index],
+                    'value'     => $value,
+                    'created_at'     => now(),
+                    'updated_at'     => now(),
+                    'academic_year' => GetAcademicYaer(),
+                ]
             );
         }
+
+        return response()->json(['status' => 'success', 'message' => 'تم تحديث بيانات CRM بنجاح']);
     }
-
-
-
-
-
-
 
 
 

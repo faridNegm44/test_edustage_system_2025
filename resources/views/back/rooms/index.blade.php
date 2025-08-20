@@ -66,6 +66,14 @@
                     {data: 'status', name: 'status'},
                     {data: 'action', name: 'action', orderable: false},
                 ],
+                dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                buttons: [
+                    { extend: 'excel', text: '📊 Excel', className: 'btn btn-outline-dark', exportOptions: { columns: ':visible'} },
+                    { extend: 'print', text: '🖨️ طباعة', className: 'btn btn-outline-dark', exportOptions: { columns: ':visible'}, customize: function (win) { $(win.document.body).css('direction', 'rtl'); } },
+                    { extend: 'colvis', text: '👁️ إظهار/إخفاء الأعمدة', className: 'btn btn-outline-dark' }
+                ],
                 "bDestroy": true,
                 "order": [[ 0, "desc" ]],
                 language: {sUrl: '{{ asset("back/assets/js/ar_dt.json") }}'},
@@ -102,23 +110,6 @@
         <!-- breadcrumb -->
 
         @include('back.rooms.form')
-
-        
-        <div class="panel-group1" id="accordion11">
-            <div class="panel panel-default  mb-4" style="border: 2px solid #ccc;">
-                <div class="panel-heading1 bg-secondary-gradient">
-                    <h4 class="panel-title1" style="line-height: 0.8 !important;">
-                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion11" href="#collapseFour1" aria-expanded="false">اكسيل</a>
-                    </h4>
-                </div>
-                <div id="collapseFour1" class="panel-collapse collapse" role="tabpanel" aria-expanded="false" style="">
-                    <div class="panel-body border">
-                        <p>All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words </p>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise</p>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="card">
             <div class="card-body">

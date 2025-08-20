@@ -73,79 +73,30 @@
 						<ul class="slide-menu">
 							<li><a class="slide-item text-light" href="{{ url('academic_years') }}">سنوات الأكاديمية</a></li>
 							<li><a class="slide-item text-light" href="{{ url('rooms') }}">الغرف الدراسية</a></li>
-							{{--<li><a class="slide-item text-light" href="23">مواعيد الغرف الدراسية</a></li>--}}
 							<li><a class="slide-item text-light" href="{{ url('types_of_education') }}">أنواع التعليم</a></li>
 							<li><a class="slide-item text-light" href="{{ url('nationalities') }}">الجنسيات</a></li>
 							<li><a class="slide-item text-light" href="{{ url('places_of_stay') }}">أماكن الٌاقامة</a></li>
-							<li><a class="slide-item text-light" href="{{ url('teachers') }}">المدرسون</a></li>
-							<li><a class="slide-item text-light" href="{{ url('partners') }}">الشركاء</a></li>
-						</ul>
-					</li>
-					
-					<li class="slide">
-						<a class="side-menu__item" data-toggle="slide" href="#">
-							<i class="fas fa-graduation-cap text-light sidebar_icon"></i>
-							<span class="side-menu__label text-light">معلومات الطلبة والصفوف</span>
-							<i class="angle fe fe-chevron-down"></i>
-						</a>
-						<ul class="slide-menu">
+							<li><a class="slide-item text-light" href="{{ url('wallets') }}">المحافظ</a></li>
+							<li><a class="slide-item text-light" href="{{ url('teacher_accounting_type') }}">طريقة حساب المدرس</a></li>
+							<li><a class="slide-item text-light" href="{{ url('financial_categories') }}">تصنيفات العمليات المالية</a></li>
+							<li><a class="slide-item text-light" href="{{ url('crm/columns_name') }}">قسم جديد لإدارة علاقات العملاء</a></li>
+							<li><a class="slide-item text-light" href="12f34">العمليات المالية</a></li>	
 							<li><a class="slide-item text-light" href="{{ url('subjects') }}">الصفوف و المواد الدراسية</a></li>
-							<li><a class="slide-item text-light" href="{{ url('parents') }}">أولياء الأمور</a></li>
-							<li><a class="slide-item text-light" href="{{ url('students') }}">الطلاب</a></li>
-							<li><a class="slide-item text-light" href="{{ url('students_wishlist') }}">لائحة رغبات الطلاب</a></li>
-							{{--<li><a class="slide-item text-light" href="{{ url('class_rooms') }}">الصفوف الدراسية</a></li>--}}
 						</ul>
 					</li>
-					
+										
 					<li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="#">
 							<i class="fas fa-star text-light sidebar_icon"></i>
-							<span class="side-menu__label text-light">العمليات الرئيسية</span>
+							<span class="side-menu__label text-light">المجموعات التعليمية</span>
 							<i class="angle fe fe-chevron-down"></i>
 						</a>
 						<ul class="slide-menu">
-							<li><a class="slide-item text-light" href="{{ url('price_list') }}">جدول الأسعار</a></li>
-							<li><a class="slide-item text-light" href="{{ url('teacher_accounting_type') }}">طريقة حساب المدرس</a></li>
+							{{--<li><a class="slide-item text-light" href="{{ url('price_list') }}">جدول الأسعار</a></li>--}}
 							<li><a class="slide-item text-light" href="{{ url('groups') }}">المجموعات التعليمية</a></li>
 						</ul>
 					</li>
 					
-					<li class="slide">
-						<a class="side-menu__item" data-toggle="slide" href="#">
-							<i class="fas fa-money-bill-alt text-light sidebar_icon"></i>
-							<span class="side-menu__label text-light">العمليات المالية</span>
-							<i class="angle fe fe-chevron-down"></i>
-						</a>
-						<ul class="slide-menu">
-							<li><a class="slide-item text-light" href="{{ url('parent-payments') }}">متحصلات من أولياء الأمور</a></li>
-							<li><a class="slide-item text-light" href="{{ url('teacher-salaries') }}">أجور المدرسين</a></li>
-							<li><a class="slide-item text-light" href="{{ url('financial_categories') }}">تصنيفات العمليات المالية</a></li>
-							<li><a class="slide-item text-light" href="12f34">العمليات المالية</a></li>									
-							<li><a class="slide-item text-light" href="{{ url('partners_payments') }}">مسحوبات الشركاء</a></li>
-							<li><a class="slide-item text-light" href="{{ url('wallets') }}">المحافظ</a></li>
-							<li><a class="slide-item text-light" href="12w34">تعديل تفقد طالب</a></li>
-						</ul>
-					</li>
-
-
-
-					<li class="slide">
-						<a class="side-menu__item" data-toggle="slide" href="#">
-							<i class="fas fa-chart-pie text-light sidebar_icon"></i>
-							<span class="side-menu__label text-light">إدارة علاقات العملاء</span>
-							<i class="angle fe fe-chevron-down"></i>
-						</a>
-						<ul class="slide-menu">
-							<li><a class="slide-item text-light" href="{{ url('crm/columns_name') }}">قسم جديد لإدارة علاقات العملاء</a></li>
-							{{-- <li><a class="slide-item text-light" href="{{ url('crm/columns_values') }}">
-								إسناد قيمة الي قسم في إدارة العملاء
-							</a></li> --}}
-						</ul>
-					</li>
-
-
-
-
 					<li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="#">
 							<i class="fas fa-chalkboard-teacher text-light sidebar_icon"></i>
@@ -153,7 +104,63 @@
 							<i class="angle fe fe-chevron-down"></i>
 						</a>
 						<ul class="slide-menu">
-								<li><a class="slide-item text-light" href="{{ url('teachers') }}">جميع المدرسون</a></li>
+							<li><a class="slide-item text-light" href="{{ url('teachers') }}">جميع المدرسون</a></li>
+							<li><hr class="dropdown-divider"></li>
+
+							<li><a class="slide-item text-light" href="{{ url('teacher-salaries') }}">أجور المدرسين</a></li>
+							<li><a class="slide-item text-light" href="1">كشف حسابات المدرسين العام</a></li>
+							<li><a class="slide-item text-light" href="2">كشف مدرس تفصيلي - نسبة</a></li>
+							<li><a class="slide-item text-light" href="3">كشف مدرس تفصيلي - قيمة ثابتة</a></li>
+							<li><a class="slide-item text-light" href="{{ url('teacher-salaries/report') }}">كشف مدفوعات المدرسين</a></li>
+							<li><a class="slide-item text-light" href="{{ url('teachers/report/students_classes') }}">كشف حصص الطلاب</a></li>
+							<li><a class="slide-item text-light" href="{{ url('teachers/report/commitment') }}">كشف إلتزام المدرسين</a></li>
+						</ul>
+					</li>
+					
+					<li class="slide">
+						<a class="side-menu__item" data-toggle="slide" href="#">
+							<i class="fas fa-graduation-cap text-light sidebar_icon"></i>
+							<span class="side-menu__label text-light">الطلاب</span>
+							<i class="angle fe fe-chevron-down"></i>
+						</a>
+						<ul class="slide-menu">
+							<li><a class="slide-item text-light" href="{{ url('students') }}">الطلاب</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="slide-item text-light" href="{{ url('students_wishlist') }}">لائحة رغبات الطلاب</a></li>
+							<li><a class="slide-item text-light" href="12w34">تعديل تفقد طالب</a></li>
+							<li><a class="slide-item text-light" href="9">الطلاب وآخر حضور</a></li>
+						</ul>
+					</li>
+					
+					<li class="slide">
+						<a class="side-menu__item" data-toggle="slide" href="#">
+							<i class="fas fa-user-friends text-light sidebar_icon"></i>
+							<span class="side-menu__label text-light">أولياء الأمور</span>
+							<i class="angle fe fe-chevron-down"></i>
+						</a>
+						<ul class="slide-menu">
+							<li><a class="slide-item text-light" href="{{ url('parents') }}">حميع أولياء الأمور</a></li>
+							<li><hr class="dropdown-divider"></li>
+							
+							<li><a class="slide-item text-light" href="{{ url('parent-payments') }}">متحصلات من أولياء الأمور</a></li>			
+							<li><a class="slide-item text-light" href="11">كشف حساب ولي أمر</a></li>
+							<li><a class="slide-item text-light" href="{{ url('parent-payments/report') }}">كشف مدغوعات ولي أمر</a></li>
+							<li><a class="slide-item text-light" href="{{ url('parents/report/attendance') }}">كشف تفقد</a></li>
+							<li><a class="slide-item text-light" href="11111">كشف عام</a></li>
+						</ul>
+					</li>
+					
+					<li class="slide">
+						<a class="side-menu__item" data-toggle="slide" href="#">
+							<i class="fas fa-handshake text-light sidebar_icon"></i>
+							<span class="side-menu__label text-light">الشركاء</span>
+							<i class="angle fe fe-chevron-down"></i>
+						</a>
+						<ul class="slide-menu">
+							<li><a class="slide-item text-light" href="{{ url('partners') }}">الشركاء</a></li>
+							<li><hr class="dropdown-divider"></li>
+							
+							<li><a class="slide-item text-light" href="{{ url('partners_payments') }}">مسحوبات الشركاء</a></li>	
 						</ul>
 					</li>
 
@@ -182,9 +189,13 @@
 						</a>
 						<ul class="slide-menu">
 							<li><a class="slide-item text-light" href="{{ url('time_table') }}">جدول الحصص</a></li>
+							<li><hr class="dropdown-divider"></li>
+
 							<li><a class="slide-item text-light" href="{{ url('time_table_history') }}">سجل جدول الحصص</a></li>
 							<li><a class="slide-item text-light" href="{{ url('time_table/teacher_report') }}">تقرير حصص المدرس</a></li>
 							<li><a class="slide-item text-light" href="{{ url('time_table/groups_report') }}">تقرير حصص لجروب</a></li>
+							
+							<li><hr class="dropdown-divider"></li>
 							<li><a class="slide-item text-light" href="{{ url('times') }}">الأوقات</a></li>
 						</ul>
 					</li>
@@ -192,11 +203,13 @@
 					<li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="href="{{ url('time_table_ramadan_month') }}">
 							<i class="fas fa-moon text-light sidebar_icon"></i>
-							<span class="side-menu__label text-light">جدول الحصص شهر رمضان</span>
+							<span class="side-menu__label text-light">جدول حصص شهر رمضان</span>
 							<i class="angle fe fe-chevron-down"></i>
 						</a>
 						<ul class="slide-menu">
 							<li><a class="slide-item text-light" href="{{ url('time_table_ramadan_month') }}">جدول الحصص</a></li>
+							<li><hr class="dropdown-divider"></li>
+
 							<li><a class="slide-item text-light" href="{{ url('time_table_ramadan_month_history') }}">سجل جدول الحصص</a></li>
 							<li><a class="slide-item text-light" href="{{ url('time_table_ramadan_month/teacher_report') }}">تقرير حصص المدرس</a></li>
 							<li><a class="slide-item text-light" href="{{ url('time_table_ramadan_month/groups_report') }}">تقرير حصص لجروب</a></li>
@@ -213,37 +226,7 @@
 							<li><a class="slide-item text-light" href="{{ url('users') }}">المستخدمين</a></li>
 						</ul>
 					</li>
-
-					<li class="slide">
-						<a class="side-menu__item" data-toggle="slide" href="#">
-							<i class="fas fa-copy text-light sidebar_icon"></i>
-							<span class="side-menu__label text-light">تقارير أولياء الأمور والطلاب</span>
-							<i class="angle fe fe-chevron-down"></i>
-						</a>
-						<ul class="slide-menu">
-							<li><a class="slide-item text-light" href="11">كشف حساب ولي أمر</a></li>
-							<li><a class="slide-item text-light" href="{{ url('parent-payments/report') }}">كشف مدغوعات ولي أمر</a></li>
-							<li><a class="slide-item text-light" href="{{ url('parents/report/attendance') }}">كشف تفقد</a></li>
-							<li><a class="slide-item text-light" href="11111">كشف عام</a></li>
-						</ul>
-					</li>
-					
-					<li class="slide">
-						<a class="side-menu__item" data-toggle="slide" href="#">
-							<i class="fas fa-copy text-light sidebar_icon"></i>
-							<span class="side-menu__label text-light">تقارير المدرسون</span>
-							<i class="angle fe fe-chevron-down"></i>
-						</a>
-						<ul class="slide-menu">
-							<li><a class="slide-item text-light" href="1">كشف حسابات المدرسين العام</a></li>
-							<li><a class="slide-item text-light" href="2">كشف مدرس تفصيلي - نسبة</a></li>
-							<li><a class="slide-item text-light" href="3">كشف مدرس تفصيلي - قيمة ثابتة</a></li>
-							<li><a class="slide-item text-light" href="{{ url('teacher-salaries/report') }}">كشف مدفوعات المدرسين</a></li>
-							<li><a class="slide-item text-light" href="5">كشف حصص الطلاب</a></li>
-							<li><a class="slide-item text-light" href="{{ url('teachers/report/commitment') }}">كشف إلتزام المدرسين</a></li>
-						</ul>
-					</li>
-					
+				
 					<li class="slide">
 						<a class="side-menu__item" data-toggle="slide" href="#">
 							<i class="fas fa-copy text-light sidebar_icon"></i>
@@ -251,9 +234,8 @@
 							<i class="angle fe fe-chevron-down"></i>
 						</a>
 						<ul class="slide-menu">
-							<li><a class="slide-item text-light" href="7">الكشف المالي العام</a></li>
-							<li><a class="slide-item text-light" href="8">الحركة المالية</a></li>
-							<li><a class="slide-item text-light" href="9">الطلاب وآخر حضور</a></li>
+							<li><a class="slide-item text-light" href="{{ url('report/general-financial') }}">الكشف المالي العام</a></li>
+							<li><a class="slide-item text-light" href="8">الحركة المالية</a></li>							
 						</ul>
 					</li>
 

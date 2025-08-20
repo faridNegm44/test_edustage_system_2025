@@ -13,7 +13,7 @@
               @csrf
               <input type="hidden" id="parent_id" value="" />               
 
-              <div class="bg-info-transparent" style="padding: 15px 30px !important;">
+              <div class="" style="padding: 15px 30px !important;">
                   <div class="row row-xs">                 
 
                      {{------------------------ start right ----------------------}}
@@ -137,7 +137,6 @@
                         
                         <div class="col-lg-3 col-md-6 col-12">
                           <label for="TheStatusDate">تاريخ الحالة</label>
-                          <i class="fas fa-star require_input"></i>
                           <div>
                               <input type="text" class="form-control datePicker dataInput" placeholder="تاريخ الحالة" id="TheStatusDate" name="TheStatusDate">
                           </div>

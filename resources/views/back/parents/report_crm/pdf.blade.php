@@ -122,7 +122,6 @@
 
         <hr>
         @include('back.layouts.footer_report')
-
     </div>
 </body>
 </html>

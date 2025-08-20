@@ -7,6 +7,7 @@ use App\Models\Back\CrmColumnsNames;
 use App\Models\Back\CrmCategories;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class CrmColumnsNamesController extends Controller
 {
@@ -88,12 +89,19 @@ class CrmColumnsNamesController extends Controller
     public function destroy($id)
     {
         if(request()->ajax()){
-            $find = CrmColumnsNames::where('id', $id)->first();
-            $find->delete();
-        }
-        return view('back.welcome');
-    }
+            $foundedData = DB::table('crm_columns_values')->where('column_id', $id)->first();
+            
+            if($foundedData){
+                return response()->json(['foundedData' => 'لا يمكن حذف هذا العنصر حاليًا، لأنه مسجل لأولياء أمور من قبل ']);
 
+            }else{
+                DB::transaction(function() use($id){
+                    CrmColumnsNames::where('id', $id)->delete();
+                });
+            }
+        }
+        //return view('back.welcome');
+    }
 
     public function datatable()
     {

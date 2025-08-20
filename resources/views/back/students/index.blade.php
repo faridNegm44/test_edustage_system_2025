@@ -115,8 +115,9 @@
 
                 if (parentSelect.getValue()) {
                     const { email, whats, nat, city } = parentSelect.options[parentSelect.getValue()];
+                    const randNum = Math.floor(Math.random() * 50) + 1;
 
-                    $("#TheEmail").val(email);
+                    $("#TheEmail").val(`${email}${randNum}`);
                     $("#ThePhone").val(whats);
                     $("#NatID")[0].selectize.setValue(nat);
                     $("#CityID")[0].selectize.setValue(city);
@@ -125,35 +126,64 @@
         
         });
 
-        // datatable
+
+
+        // start DataTable
         $(document).ready(function () {
-            $('#example1').DataTable({
+            let table = $('#example1').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: `{{ url($pageNameEn.'/datatable') }}`,
+                ajax: {
+                    url: `{{ url($pageNameEn) }}/datatable`,
+                    type: 'GET',
+                    data: function (d) {
+                        d.from = $('#from').val();
+                        d.to = $('#to').val();
+                        d.academic_year = $('#academic_year').val();
+                    }
+                },
                 dataType: 'json',
                 columns: [
                     {data: 'action', name: 'action', orderable: false},
-                    {data: 'TheName', name: 'TheName'},
                     {data: 'ID', name: 'ID'},
+                    {data: 'TheName', name: 'TheName'},
                     {data: 'TheDate1', name: 'TheDate1'},
                     {data: 'nat_city', name: 'nat_city'},
                     {data: 'TheEduType', name: 'TheEduType'},
                     {data: 'TheTestType', name: 'TheTestType'},
                     {data: 'phones', name: 'phones'},
                     {data: 'TheEmail', name: 'TheEmail'},
+                    {data: 'TheStatus', name: 'TheStatus'},
                     {data: 'academicYearName', name: 'academicYearName'},
                     {data: 'TheExplain', name: 'TheExplain'},
                     {data: 'TheNotes', name: 'TheNotes'},
-                    {data: 'TheStatus', name: 'TheStatus'},
                     {data: 'TheStatusDate', name: 'TheStatusDate'},
                 ],
-                "bDestroy": true,
-                "order": [[ 2, "desc" ]],
+                dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                buttons: [
+                    { extend: 'excel', text: '📊 Excel', className: 'btn btn-outline-dark', exportOptions: { columns: ':visible'} },
+                    { extend: 'print', text: '🖨️ طباعة', className: 'btn btn-outline-dark', exportOptions: { columns: ':visible'}, customize: function (win) { $(win.document.body).css('direction', 'rtl'); } },
+                    { extend: 'colvis', text: '👁️ إظهار/إخفاء الأعمدة', className: 'btn btn-outline-dark' }
+                ],
+                bDestroy: true,
+                order: [[ 1, "desc" ]],
                 language: {sUrl: '{{ asset("back/assets/js/ar_dt.json") }}'},
-                lengthMenu: [[50, 100, 200, -1], [50, 100, 200, "الكل"]]
+                lengthMenu: [[20, 50, 100, 200, -1], [20, 50, 100, 200, "الكل"]]
+            });
+
+            $('#search').on('click', function (e) {
+                e.preventDefault();
+                $("#overlay_page").show();
+                table.ajax.reload();
+            });
+
+            table.on('xhr.dt', function () {
+                $('#overlay_page').hide();
             });
         });
+        // end DataTable
     </script>
 
 
@@ -183,8 +213,50 @@
         </div>
         <!-- breadcrumb -->
 
-        @include('back.students.form')
 
+        <div class="card bg bg-primary">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-2">
+                        <div>
+                            <select name="academic_year" class="form-control" id="academic_year">
+                                <option value="" selected class="text-muted">اختر سنة أكاديمية</option>                              
+                                @foreach ($academic_years as $year)
+                                  <option value="{{ $year->id }}">( {{ $year->id }} ) - {{ $year->name }}</option>                              
+                                @endforeach
+                            </select>
+                        </div>
+                        <bold class="text-danger" id="errors-treasury" style="display: none;"></bold>
+                    </div>   
+                                    
+                    <div class="col-md-2">
+                        <div>
+                            <input type="text" class="form-control datePicker" placeholder="من" id="from" name="from">
+                        </div>
+                        <bold class="text-danger" id="errors-from" style="display: none;"></bold>
+                    </div>    
+                    
+                    <div class="col-md-2">
+                        <div>
+                            <input type="text" class="form-control datePicker" placeholder="الي" id="to" name="to">
+                        </div>
+                        <bold class="text-danger" id="errors-to" style="display: none;"></bold>
+                    </div>    
+
+                    <div class="col-md-2">
+                        <div>
+                            <button id="search" class="btn btn-warning-gradient btn-block" style="height: 36px;font-size: 12px;font-weight: bold;">بحث</button>
+                        </div>
+                        <bold class="text-danger" id="errors-to" style="display: none;"></bold>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        @include('back.students.form')
+        @include('back.layouts.duplicated_emails_modal')
+        
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
@@ -192,18 +264,18 @@
                         <thead>
                             <tr>
                                 <th class="border-bottom-0 nowrap_thead" style="width: 110px !important;min-width: 110px !important;">التحكم</th>
-                                <th class="border-bottom-0 nowrap_thead" style="width: 110px !important;min-width: 110px !important;">الإسم</th>
-                                <th class="border-bottom-0 nowrap_thead">كود</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 40px !important;min-width: 40px !important;">كود</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 150px !important;min-width: 150px !important;">الإسم</th>
                                 <th class="border-bottom-0 nowrap_thead">تاريخ التسجيل</th>
-                                <th class="border-bottom-0 nowrap_thead" style="width: 80px !important;min-width: 80px !important;"> الإقامة</th>
-                                <th class="border-bottom-0 nowrap_thead">نظام التعليم</th>
-                                <th class="border-bottom-0 nowrap_thead">نظام الاختبارات</th>
-                                <th class="border-bottom-0 nowrap_thead">موبايل</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 120px !important;min-width: 120px !important;"> الإقامة</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 100px !important;min-width: 100px !important;">نظام التعليم</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 100px !important;min-width: 100px !important;">نظام الاختبارات</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 80px !important;min-width: 80px !important;">موبايل</th>
                                 <th class="border-bottom-0 nowrap_thead">الإيميل</th>
-                                <th class="border-bottom-0 nowrap_thead">السنة</th>
-                                <th class="border-bottom-0 nowrap_thead">الوصف</th>
-                                <th class="border-bottom-0 nowrap_thead">ملاحظات</th>
                                 <th class="border-bottom-0 nowrap_thead">الحالة</th>
+                                <th class="border-bottom-0 nowrap_thead">السنة</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 150px !important;min-width: 150px !important;">الوصف</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 150px !important;min-width: 150px !important;">ملاحظات</th>
                                 <th class="border-bottom-0 nowrap_thead">تاريخ الحالة</th>
                             </tr>
                         </thead>

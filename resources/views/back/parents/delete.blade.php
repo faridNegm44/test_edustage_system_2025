@@ -8,8 +8,8 @@
             'تحذير !! <i class="fas fa-exclamation-triangle text-warning" style="margin: 0px 3px;"></i>',
             `<div style="text-align: center;">
                 <p style="font-weight: bold;">
-                    هل انت متأكد من حذف ولي الأمر
-                    <p style="color: red;">${parent_name}</p>
+                    ⚠️ هل أنت متأكد من حذف ولي الأمر 🗑️
+                    <p style="color: red;font-weight: bold;">${parent_name}</p>
                 </p>
             </div>`,
         function(){
@@ -33,7 +33,7 @@
 
                         alertify.set('notifier','position', 'top-center');
                         alertify.set('notifier','delay', 4);
-                        alertify.error("تم حذف ولي الأمر بنجاح");
+                        alertify.error("🗑️ تم حذف ولي الأمر بنجاح ❌");
                     }
                 }
             });

@@ -146,8 +146,18 @@
         }
         .side-menu__label{
             font-weight: bold !important;
-            font-size: 10.5px;
+            font-size: 11.5px !important;
+            margin-right: 5px !important;
         }
+
+        .dropdown-divider{
+            width: 85% !important;
+            margin: 4px auto !important;
+            overflow: hidden !important;
+            border-top: 1px solid #bababa !important;
+            opacity: 0.4 !important;
+        }
+
 
         .slide-item{
             font-size: 10.5px;
@@ -160,6 +170,10 @@
         }
         .slide.is-expanded .angle, .slide.is-expanded .side-menu__icon, .slide.is-expanded .side-menu__label{
             color: #fff !important;
+        }
+
+        #duplicatedEmailsModal .table td, .table th{
+            padding: 6px !important;
         }
 
         @media (min-width: 768px) {
@@ -386,7 +400,7 @@
             margin-left: 10px;
         }
 
-        table .edit, table .delete, table .show, table .crm_info, table .print, table .take_attendance, table .remove_student_tbl_groups_students, .remove_one_student{
+        table .edit, table .delete, table .show, table .crm_info, table .print, table .take_attendance, table .remove_student_tbl_groups_students, .remove_one_student, .dropdown_toggle, .dropdown_toggle{
             padding: 0 6px !important;
         }
 

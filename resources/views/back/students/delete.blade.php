@@ -35,7 +35,7 @@
 
                         alertify.set('notifier','position', 'top-center');
                         alertify.set('notifier','delay', 4);
-                        alertify.error("تم حذف الطالب بنجاح");
+                        alertify.error("🗑️ تم حذف الطالب بنجاح ❌");
                     }
                 }
             });

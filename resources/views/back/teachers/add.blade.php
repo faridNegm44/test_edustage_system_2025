@@ -2,8 +2,7 @@
     $(document).ready(function () {
         $("#exampleModalCenter #save").click(function(e){
             e.preventDefault();
-            //document.querySelector('#exampleModalCenter #save').disabled = true;        
-            //document.querySelector('.spinner_request').setAttribute("style", "display: inline-block;");
+            $("#overlay_page").show();
 
             $.ajax({
                 url: "{{ url($pageNameEn) }}/store",
@@ -20,8 +19,7 @@
                     });               
                     
                     $('.dataInput:first').select().focus();
-                    document.querySelector('#exampleModalCenter #save').disabled = false;
-                    document.querySelector('.spinner_request').style.display = 'none';                
+                    $('#overlay_page').hide();                  
 
                     alertify.set('notifier','position', 'top-center');
                     alertify.set('notifier','delay', 3);
@@ -30,20 +28,22 @@
                 success: function(res){
                     $('#example1').DataTable().ajax.reload( null, false );
                     $("#exampleModalCenter form bold[class=text-danger]").css('display', 'none');
-            
-                    $(".dataInput").val('');
-                    $('.dataInput:first').select().focus();
-
-                    document.querySelector('#exampleModalCenter #save').disabled = false;
-                    document.querySelector('.spinner_request').style.display = 'none';
-
-                    $('#NatID, #CityID').each(function() {
-                        $(this)[0].selectize.clear();
-                    });
-                    
-                    alertify.set('notifier','position', 'top-center');
-                    alertify.set('notifier','delay', 3);
-                    alertify.success("تمت الإضافة بنجاح! ✔️🎯");
+                    $('#overlay_page').hide();
+                
+                    if(res.duplicated_emails){
+                        @include('back.layouts.duplicated_emails_js')
+                    }else{
+                        $(".dataInput").val('');
+                        $('.dataInput:first').select().focus();
+        
+                        $('#NatID, #CityID').each(function() {
+                            $(this)[0].selectize.clear();
+                        });
+                        
+                        alertify.set('notifier','position', 'top-center');
+                        alertify.set('notifier','delay', 3);
+                        alertify.success("تمت الإضافة بنجاح! ✔️🎯");
+                    }
                 }
             });
         });

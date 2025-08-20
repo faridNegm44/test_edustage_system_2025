@@ -217,6 +217,12 @@ class StudentsWishlistController extends Controller
             $all = $query->get();
 
             return DataTables::of($all)
+            ->addColumn('TheYear', function($res){
+                return '<span class="badge badge-primary" style="width: 80% !important;font-size: 110% !important;">'.$res->TheYear.'</span>';
+            })
+            ->addColumn('TheMat', function($res){
+                return '<span class="badge text-white" style="width: 90% !important;font-size: 110% !important;background: #2b833b !important;">'.$res->TheMat.'</span>';
+            })
             ->addColumn('action', function($res){
                 return '
                     <button type="button" class="btn btn-sm btn-outline-danger delete" data-effect="effect-scale" data-placement="top" data-toggle="tooltip" title="حذف" res_id="'.$res->ID.'" mat="'.$res->TheMat.'" year="'.$res->TheYear.'">
@@ -224,7 +230,7 @@ class StudentsWishlistController extends Controller
                     </button>
                 ';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['TheYear', 'TheMat', 'action'])
             ->toJson();
     }
 }

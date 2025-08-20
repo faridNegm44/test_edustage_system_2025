@@ -138,7 +138,7 @@
 
         @include('back.students_wishlist.form')
 
-        <div class="card bg bg-warning-gradient">
+        <div class="card bg bg-primary">
             <div class="card-body">
                 <div class="row justify-content-center">
                     <div class="col-md-2">
@@ -169,7 +169,7 @@
 
                     <div class="col-md-2">
                         <div>
-                            <button id="search" class="btn btn-primary btn-block" style="height: 36px;font-size: 12px;font-weight: bold;">بحث</button>
+                            <button id="search" class="btn btn-warning-gradient btn-block" style="height: 36px;font-size: 12px;font-weight: bold;">بحث</button>
                         </div>
                         <bold class="text-danger" id="errors-to" style="display: none;"></bold>
                     </div>    
@@ -185,11 +185,11 @@
                             <tr>
                                 <th class="border-bottom-0">#</th>
                                 <th class="border-bottom-0 nowrap_thead">تاريخ التسجيل</th>
-                                <th class="border-bottom-0 nowrap_thead">الصف الدراسي/الدورة التعليمية</th>
-                                <th class="border-bottom-0 nowrap_thead">المادة</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 100px !important;min-width: 100px !important;">الصف الدراسي/الدورة التعليمية</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 100px !important;min-width: 100px !important;">المادة</th>
                                 <th class="border-bottom-0 nowrap_thead">الفترة</th>
                                 <th class="border-bottom-0 nowrap_thead">الباقة</th>
-                                <th class="border-bottom-0 nowrap_thead">ملاحظات</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 130px !important;min-width: 130px !important;">ملاحظات</th>
                                 <th class="border-bottom-0 nowrap_thead">السنة</th>
                                 <th class="border-bottom-0">التحكم</th>
                             </tr>

@@ -117,7 +117,7 @@ class SubjectsController extends Controller
 
             $TheYear = request('TheYear');
             $TheMat = request('TheMat');
-         
+            
             DB::table('tbl_years_mat')->where('ID', $id)->update([
                 'TheFullName' => request('TheYear').' / '.request('TheMat'),
                 'TheYear' => request('TheYear'),

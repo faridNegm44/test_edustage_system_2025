@@ -72,6 +72,20 @@ Route::group(['prefix' => '/', 'namespace' => 'App\Http\Controllers\Back', 'midd
     Route::get('/temp-dark', function(){
     return view('back.temp_dark.index');
     });
+    
+
+    // crm_columns_name Routes
+    Route::group(['prefix' => 'crm/columns_name'] , function (){
+        Route::get('/' , 'CrmColumnsNamesController@index');
+        Route::get('/lastOrderNumber/{id}' , 'CrmColumnsNamesController@lastOrderNumber');
+        Route::post('/store' , 'CrmColumnsNamesController@store');
+        Route::get('/edit/{id}' , 'CrmColumnsNamesController@edit');
+        Route::post('/update/{id}' , 'CrmColumnsNamesController@update');
+        Route::get('/destroy/{id}' , 'CrmColumnsNamesController@destroy');
+
+        Route::get('/datatable' , 'CrmColumnsNamesController@datatable');
+    });
+
 
     // users Routes
     Route::group(['prefix' => 'users'] , function (){
@@ -98,12 +112,20 @@ Route::group(['prefix' => '/', 'namespace' => 'App\Http\Controllers\Back', 'midd
         Route::get('/destroy/{id}' , 'TeachersController@destroy');
 
         Route::get('datatable' , 'TeachersController@datatable');
-
+        
+        Route::get('/related-data' , 'TeachersController@related_data');
+        
         // تقرير عن كشف التزام المدرسين  
         Route::group(['prefix' => 'report/commitment'] , function (){
             Route::get('/' , 'ReportsTeacherCommitmentController@index');
             Route::get('datatable' , 'ReportsTeacherCommitmentController@datatable');
             Route::get('/result/pdf' , 'ReportsTeacherCommitmentController@result_pdf');
+        });
+
+        // تقرير عن حصص الطلاب لمدرس  
+        Route::group(['prefix' => 'report/students_classes'] , function (){
+            Route::get('/' , 'ReportsTeacherStudentsClassesController@index');
+            Route::get('/result/pdf' , 'ReportsTeacherStudentsClassesController@result_pdf');
         });
     });
 
@@ -135,9 +157,9 @@ Route::group(['prefix' => '/', 'namespace' => 'App\Http\Controllers\Back', 'midd
 
         
         // تقرير عن كشف تفقد حضور وغياب الطلاب لولي امر  
-        Route::group(['prefix' => 'report'] , function (){
-            Route::get('/attendance' , 'ReportsParentAttendanceController@index');
-            Route::get('datatable' , 'TeacherSalaryController@datatable');
+        Route::group(['prefix' => 'report/attendance'] , function (){
+            Route::get('/' , 'ReportsParentAttendanceController@index');
+            Route::get('/result/pdf' , 'ReportsParentAttendanceController@result_pdf');
         });
 
         // crm routs
@@ -571,6 +593,14 @@ Route::group(['prefix' => '/', 'namespace' => 'App\Http\Controllers\Back', 'midd
         Route::get('datatable' , 'RolesPermissionsController@datatable');
     });
 
+
+    // تقرير عن الكشف المالي العام  
+    Route::group(['prefix' => 'report/general-financial'] , function (){
+        Route::get('/' , 'ReportsGeneralFinancialController@index');
+        Route::get('result/pdf' , 'ReportsGeneralFinancialController@result_pdf');
+    });
+
+    
     
     // getByAjax Routes   
     Route::group(['prefix' => 'getByAjax'] , function (){
@@ -590,44 +620,5 @@ Route::group(['prefix' => '/', 'namespace' => 'App\Http\Controllers\Back', 'midd
     //    Route::get('datatable' , 'ClassRoomsController@datatable');
     //});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    // crm_columns_name Routes
-    Route::group(['prefix' => 'crm'] , function (){
-        Route::get('/columns_name' , 'CrmColumnsNamesController@index');
-        Route::get('/columns_name/lastOrderNumber/{id}' , 'CrmColumnsNamesController@lastOrderNumber');
-        Route::post('/columns_name/store' , 'CrmColumnsNamesController@store');
-        Route::get('/columns_name/edit/{id}' , 'CrmColumnsNamesController@edit');
-        Route::post('/columns_name/update/{id}' , 'CrmColumnsNamesController@update');
-        Route::get('/columns_name/destroy/{id}' , 'CrmColumnsNamesController@destroy');
-
-        Route::get('columns_name/datatable' , 'CrmColumnsNamesController@datatable');
-    });
+    
 });

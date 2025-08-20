@@ -123,14 +123,14 @@
                                 <th class="border-bottom-0 nowrap_thead">#</th>
                                 <th class="border-bottom-0 nowrap_thead">التحكم</th>
                                 <th class="border-bottom-0 nowrap_thead">الحالة</th>
-                                <th class="border-bottom-0 nowrap_thead" style="width: 10%;max-width: 10%;">الإسم</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 100px !important;max-width: 100px !important;">الإسم</th>
                                 {{--<th class="border-bottom-0 nowrap_thead">الرصيد الإفتتاحي</th>--}}
                                 <th class="border-bottom-0 nowrap_thead">النسبة %</th>
                                 {{--<th class="border-bottom-0 nowrap_thead">الرصيد الحالي للشريك</th>--}}
                                 <th class="border-bottom-0 nowrap_thead">موبايل</th>
                                 <th class="border-bottom-0 nowrap_thead">العنوان</th>
-                                <th class="border-bottom-0 nowrap_thead">ملاحظات</th>
-                                <th class="border-bottom-0 nowrap_thead" style="width: 15%;max-width: 15%;">تاريخ الإنشاء</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 200px !important;max-width: 200px !important;">ملاحظات</th>
+                                <th class="border-bottom-0 nowrap_thead" style="width: 100px !important;max-width: 100px !important;">تاريخ الإنشاء</th>
                             </tr>
                         </thead>
                         

@@ -143,6 +143,7 @@
         <!-- breadcrumb -->
 
         @include('back.users.form')
+        @include('back.layouts.duplicated_emails_modal')
 
         <div class="row row-sm">
             <div class="col-xl-12">

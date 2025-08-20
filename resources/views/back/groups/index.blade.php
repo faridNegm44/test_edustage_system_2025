@@ -315,7 +315,6 @@
                 $('#overlay_page').hide();
             });
         });
-
         // end DataTable
     </script>
 

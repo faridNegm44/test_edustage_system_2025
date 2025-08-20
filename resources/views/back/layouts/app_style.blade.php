@@ -76,12 +76,6 @@
 		margin: 1px 2px;
 	}
 
-	.dropdown-divider{
-		opacity: .2;
-		width: 75%;
-		margin: 8px auto;
-	}
-
 	.metismenu li{
 		margin: 4px 0px;
 	}

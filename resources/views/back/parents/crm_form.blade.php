@@ -1,4 +1,4 @@
-<div class="modal fade" id="crmModal" tabindex="-1" role="dialog" aria-labelleDBy="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static">
+<div class="modal fade crmModal" id="crmModal" tabindex="-1" role="dialog" aria-labelleDBy="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static">
   <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -11,7 +11,7 @@
       <div class="modal-body">
           <form class="" id="form" enctype="multipart/form-data">
               @csrf
-              <input type="hidden" id="parent_id" name="parent_id" value="" />               
+              <input id="parent_id" type="hidden" name="parent_id" value="" />               
 
               @foreach ($crmCategories as $crmCategory)
                   <div id="crmCateg_{{ $crmCategory->id }}">
@@ -21,22 +21,19 @@
                         <div class="row row-xs">
                           @foreach ($crmNamesEmpty as $crmName)
                               @if ($crmCategory->id == $crmName->category)                              
-
                                 <div class="col-md-4">
                                     <label for="{{ $crmName->name_ar }}" style="color: red;">{{ $crmName->name_ar }}</label>
                                     <div>
                                         <textarea class="form-control dataInput" name="columnValue[]" id="col{{ $crmName->id }}" style="border-radius: 10px;font-size: 11px;font-weight: bold;" rows="4"></textarea>
+                                        <input type="hidden" class="dataInput columnId" name="columnId[]" id="col2{{ $crmName->id }}" value="{{ $crmName->id }}" />
                                     </div>
                                 </div>
-                                  
                               @endif
                           @endforeach
                         </div>                
                       </div>
                   </div>
               @endforeach
-
-              
 
               <div class="modal-footer">                                               
                   <button type="button" class="btn btn-primary btn-rounded save">

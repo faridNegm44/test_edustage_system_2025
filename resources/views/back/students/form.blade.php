@@ -13,7 +13,7 @@
               @csrf
               <input type="hidden" id="student_id" value="" />               
 
-              <div class="bg-info-transparent" style="padding: 15px 30px !important;">
+              <div class="" style="padding: 15px 30px !important;">
                   <div class="row row-xs">   
                     {{------------------------ start right ----------------------}}
                     <div class="col-md-4 card bg-secondary-transparent" style="padding: 0 20px 12px;"> 

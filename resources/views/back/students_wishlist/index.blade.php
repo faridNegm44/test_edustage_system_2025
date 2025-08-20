@@ -69,7 +69,9 @@
                                 </a>
                             `;
                         }},
-                        {data: 'studentName', name: 'studentName', render: function(data) { return data; }},
+                        {data: 'studentName', name: 'studentName', render: function(data) { 
+                            return `<span class="badge badge-pink" style="width: 100% !important;font-size: 120% !important;">${data}</span>`;
+                        }},
                         {data: 'studentPhone', name: 'studentPhone', render: function(data) {
                             return `<i class="fas fa-phone text-danger"></i> ${data}`;
                         }},
